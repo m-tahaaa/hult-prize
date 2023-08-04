@@ -4,9 +4,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
 from django.shortcuts import HttpResponse, redirect, render
 from .models import Team, TeamMember, Faq, Speaker, UnverifiedTeamMember, SpeakersFaq
 from datetime import datetime
+
 
 def home(request):
     return render(request, 'home.html')
@@ -21,10 +25,6 @@ def team(request):
 
 def createTeam(request):
     if request.method == "POST":
-        # Registration closed
-        messages.warning(request, 'Registration is now closed')
-        return redirect('/join-team')
-        #
         team_name = request.POST.get('team_name')
         if team_name == '':
             messages.error(request, 'Team name is required')
@@ -96,10 +96,6 @@ def createTeam(request):
         messages.warning(request, 'After the invitation has been accepted, it will be visible here')
         return redirect('/create-team')
     if request.user.is_authenticated:
-        # Registration closed
-        messages.warning(request, 'Registration is now closed')
-        return redirect('/join-team')
-        #
         team = Team.objects.filter(user=request.user).first()
         team_members = TeamMember.objects.filter(team=team).all()
         return render(request, 'create-team.html', { 'team_members': team_members, 'team': team })
@@ -188,10 +184,6 @@ def handleLogout(request):
 
 def handleSignUp(request):
     if request.method == 'POST':
-        # Registration closed
-        messages.warning(request, 'Registration is now closed')
-        return redirect('/')
-        #
         username = request.POST.get('username')
         email = request.POST.get('email')
         first_name = request.POST.get('first_name')
@@ -219,16 +211,13 @@ def handleSignUp(request):
             sendMail(email, auth_token)
             return redirect('/token')
         except Exception as e:
+            print(e)
             messages.error(request, 'Error occured')
             return redirect('/')
     else:
         if request.user.is_authenticated:
             return redirect('/create-team')
         else:
-            # Registration closed
-            messages.warning(request, 'Registration is now closed')
-            return redirect('/login')
-            #
             return render(request, 'signup.html')
 
 def token(request):
@@ -336,10 +325,6 @@ def speakers(request):
 
 def joinTeam(request):
     if request.method == 'POST':
-        # Registration closed
-        messages.warning(request, 'Registration is now closed')
-        return redirect('/join-team')
-        #
         if Team.objects.filter(user=request.user).first().is_leader == False:
             auth_token = request.POST.get('auth_token')
             team = Team.objects.filter(auth_token=auth_token).first()
@@ -419,9 +404,6 @@ def joinTeam(request):
                         'can_request': can_request,
                         'no_of_members': no_of_members
                     })
-            # Registration closed
-            messages.warning(request, 'Registration is now closed')
-            # 
             return render(request, 'join-team.html', { 'data': data })
         else:
             return redirect('/')
@@ -486,3 +468,56 @@ def acceptInvitation(request, auth_token):
     else:
         messages.error(request, 'Please login first to add team member')
         return redirect('/login')
+def forgotPassword(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email = email)
+        except User.DoesNotExist:
+            messages.error(request,' No user found with this email.')
+            return redirect('request_password_reset')
+        
+        #token and url generation
+        token = default_token_generator.make_token(user)
+        uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+        reset_link = request.build_absolute_uri(f'/request-password-reset/confirm/{uidb64}/{token}/')
+
+        #sending email
+        subject = 'Reset Password - Hult Prize'
+        message = f'To reset your password use this link : \n\n {reset_link} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
+        recipient_list = [email]
+        email_from = settings.EMAIL_HOST_USER
+        send_mail(subject, message, email_from, recipient_list,fail_silently=False)
+
+        return redirect('reset-token')
+
+    return render(request,'forgotpassword.html')
+
+def resettoken(request):
+    return render(request, 'reset-token.html')
+
+def reset_password_confirm(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            password1 = request.POST.get('password1')
+            password2 = request.POST.get('password2')
+            if password1 == password2:
+                user.set_password(password1)
+                user.save()
+                messages.success(request,'Password Updated')
+            else:
+                messages.warning(request, 'Passwords do not match')
+                return render(request, 'password_reset.html')
+            return redirect('/login')
+        return render(request, 'password_reset.html')
+    else:
+        messages.error(request, 'Password reset link is invalid.')
+        return redirect('request_password_reset')
+
+
+

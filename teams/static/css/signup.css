@@ -148,18 +148,21 @@ form .field input:focus::placeholder{
 .form-inner form .pass-link{
   margin-top: 5px;
 }
-.form-inner form .signup-link{
+.form-inner form .signup-link,
+.form-inner form .login-link{
   text-align: center;
   margin-top: 30px;
   /* margin-bottom: 8px; */
 }
 .form-inner form .pass-link a,
-.form-inner form .signup-link a{
+.form-inner form .signup-link a,
+.form-inner form .login-link a{
   color: crimson;
   text-decoration: none;
 }
 .form-inner form .pass-link a:hover,
-.form-inner form .signup-link a:hover{
+.form-inner form .signup-link a:hover ,
+.form-inner form .login-link a:hover{
   text-decoration: underline;
 }
 form .btn{
