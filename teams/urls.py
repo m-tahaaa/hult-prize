@@ -20,4 +20,7 @@ urlpatterns = [
     path('speakers', views.speakers, name="speakers"),
     path('teamsCSV', views.teamsCSV, name="teamsCSV"),
     path('verify/<auth_token>', views.verify, name="verify"),
+    path('request-password-reset',views.forgotPassword,name="request_password_reset"),
+    path('request-password-reset/confirm/<uidb64>/<token>/',views.reset_password_confirm,name="confirm_password_reset"),
+    path('reset-token', views.resettoken, name="reset-token")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
