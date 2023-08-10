@@ -3,9 +3,11 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from django.utils.encoding import force_bytes, force_text
 from django.shortcuts import HttpResponse, redirect, render
 from .models import Team, TeamMember, Faq, Speaker, UnverifiedTeamMember, SpeakersFaq
@@ -70,7 +72,15 @@ def createTeam(request):
             subject = f'Invitation to Join Team {team_name} - Hult Prize'
             message = f'Invitation to join {request.user.first_name} {request.user.last_name}\'s team. Click on the link to join - https://hult.edcnitd.co.in/leader-invitation/{token} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
             recipient_list = [email1]
-            send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list)
+
+            context = {'link':f'https://hult.edcnitd.co.in/leader-invitation/{token}','request':f'Invitation to join {request.user.first_name} {request.user.last_name}\'s team. Click on the button to join','button_name':"Join",'subject':subject}
+            html_message = render_to_string('sendemail.html',context)
+            plain_message = strip_tags(html_message)
+
+            email = EmailMultiAlternatives(subject,plain_message,settings.EMAIL_HOST_USER,recipient_list)
+            email.attach_alternative(html_message, 'text/html')
+            email.send()
+            #send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list)
             unverified1 = UnverifiedTeamMember(team=teamKey, first_name=fname1, last_name=lname1, email=email1, phone_no=phone1, token=token)
             unverified1.save()
         if email2 != '':
@@ -78,7 +88,15 @@ def createTeam(request):
             subject = f'Invitation to Join Team {team_name} - Hult Prize'
             message = f'Invitation to join {request.user.first_name} {request.user.last_name}\'s team. Click on the link to join - https://hult.edcnitd.co.in/leader-invitation/{token} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
             recipient_list = [email2]
-            send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list)
+
+            context = {'link':f'https://hult.edcnitd.co.in/leader-invitation/{token}','request':f'Invitation to join {request.user.first_name} {request.user.last_name}\'s team. Click on the button to join','button_name':"Join",'subject':subject}
+            html_message = render_to_string('sendemail.html',context)
+            plain_message = strip_tags(html_message)
+
+            email = EmailMultiAlternatives(subject,plain_message,settings.EMAIL_HOST_USER,recipient_list)
+            email.attach_alternative(html_message, 'text/html')
+            email.send()
+            #send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list)
             unverified2 = UnverifiedTeamMember(team=teamKey, first_name=fname2, last_name=lname2, email=email2, phone_no=phone2, token=token)
             unverified2.save()
         if email3 != '':
@@ -86,7 +104,15 @@ def createTeam(request):
             subject = f'Invitation to Join Team {team_name} - Hult Prize'
             message = f'Invitation to join {request.user.first_name} {request.user.last_name}\'s team. Click on the link to join - https://hult.edcnitd.co.in/leader-invitation/{token} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
             recipient_list = [email3]
-            send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list)
+
+            context = {'link':f'https://hult.edcnitd.co.in/leader-invitation/{token}','request':f'Invitation to join {request.user.first_name} {request.user.last_name}\'s team. Click on the button to join','button_name':"Join",'subject':subject}
+            html_message = render_to_string('sendemail.html',context)
+            plain_message = strip_tags(html_message)
+
+            email = EmailMultiAlternatives(subject,plain_message,settings.EMAIL_HOST_USER,recipient_list)
+            email.attach_alternative(html_message, 'text/html')
+            email.send()
+            #send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list)
             unverified3 = UnverifiedTeamMember(team=teamKey, first_name=fname3, last_name=lname3, email=email3, phone_no=phone3, token=token)
             unverified3.save()
         is_team_leader = Team.objects.filter(user=request.user).first()
@@ -137,7 +163,15 @@ def leaderInvitation(request, token):
             subject = f'Invitation Accepted - Hult Prize'
             message = f'{first_name} {last_name} has successfully joined your Team {team.team_name} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
             recipient_list = [team.user.email]
-            send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list)
+
+            context = {'link':f'https://hult.edcnitd.co.in/login','request':f'{first_name} {last_name} has successfully joined your Team {team.team_name}. Click on the button below to login :','button_name':"Login",'subject':subject}
+            html_message = render_to_string('sendemail.html',context)
+            plain_message = strip_tags(html_message)
+
+            email = EmailMultiAlternatives(subject,plain_message,settings.EMAIL_HOST_USER,recipient_list)
+            email.attach_alternative(html_message, 'text/html')
+            email.send()
+            #send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list)
             unverified.delete()
             messages.success(request, 'You have successfully joined the team')
             return redirect('/')
@@ -228,7 +262,15 @@ def sendMail(email, token):
     message = f'Please click the link to verify your account https://hult.edcnitd.co.in/verify/{token} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
-    send_mail(subject, message, email_from, recipient_list)
+    context={'link':f'https://hult.edcnitd.co.in/verify/{token}','request':f'Please click the link to verify your account','button_name':"Verify Email",'subject':subject}
+
+    html_message = render_to_string('sendemail.html',context)
+    plain_message = strip_tags(html_message)
+
+    email = EmailMultiAlternatives(subject,plain_message,email_from,recipient_list)
+    email.attach_alternative(html_message, 'text/html')
+    email.send()
+    #send_mail(subject, message, email_from, recipient_list)
 
 def verify(request, auth_token):
     try:
@@ -335,7 +377,15 @@ def joinTeam(request):
                 message = f'{request.user.first_name + " " + request.user.last_name} would like to join your team.\nClick on the link to add - https://hult.edcnitd.co.in/accept-invitation/{Team.objects.filter(user=request.user).first().auth_token} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
                 email_from = settings.EMAIL_HOST_USER
                 recipient_list = [team_leader_email]
-                send_mail(subject, message, email_from, recipient_list)
+
+                context={'link':f'https://hult.edcnitd.co.in/accept-invitation/{Team.objects.filter(user=request.user).first().auth_token}','request':f'{request.user.first_name + " " + request.user.last_name} would like to join your team.\nClick on the link to add','button_name':"Accept Invite",'subject':subject}
+
+                html_message = render_to_string('sendemail.html',context)
+                plain_message = strip_tags(html_message)
+                email = EmailMultiAlternatives(subject,plain_message,email_from,recipient_list)
+                email.attach_alternative(html_message, 'text/html')
+                email.send()
+                #send_mail(subject, message, email_from, recipient_list)
                 team_from.can_request = False
                 team_from.can_request_timestamp = datetime.now()
                 team_from.request_sent_to = auth_token
@@ -351,7 +401,16 @@ def joinTeam(request):
                     message = f'{request.user.first_name + " " + request.user.last_name} would like to join your team.\nClick on the link to add - https://hult.edcnitd.co.in/accept-invitation/{Team.objects.filter(user=request.user).first().auth_token} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list = [team_leader_email]
-                    send_mail(subject, message, email_from, recipient_list)
+
+                    context={'link':f'https://hult.edcnitd.co.in/accept-invitation/{Team.objects.filter(user=request.user).first().auth_token}','request':f'{request.user.first_name + " " + request.user.last_name} would like to join your team.\nClick on the link to add','button_name':"Accept Invite",'subject':subject}
+
+                    html_message = render_to_string('sendemail.html',context)
+                    plain_message = strip_tags(html_message)
+
+                    email = EmailMultiAlternatives(subject,plain_message,email_from,recipient_list)
+                    email.attach_alternative(html_message, 'text/html')
+                    email.send()
+                    #send_mail(subject, message, email_from, recipient_list)
                     team_from.can_request = False
                     team_from.can_request_timestamp = datetime.now()
                     team_from.save()
@@ -456,10 +515,16 @@ def acceptInvitation(request, auth_token):
             team.is_leader = True
             team.save()
             subject = 'Request accepted - Hult Prize'
-            message = f'Your request to join the team, {Team.objects.filter(user=request.user).first().team_name}, has been accepted \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [Team.objects.filter(auth_token=auth_token).first().user.email]
-            send_mail(subject, message, email_from, recipient_list)
+            context = {'link':f'https://hult.edcnitd.co.in/login','request':f'Your request to join the team, {Team.objects.filter(user=request.user).first().team_name}, has been accepted. Click on the button below to login :','button_name':"Login",'subject':subject}
+            html_message = render_to_string('sendemail.html',context)
+            plain_message = strip_tags(html_message)
+
+            email = EmailMultiAlternatives(subject,plain_message,email_from,recipient_list)
+            email.attach_alternative(html_message, 'text/html')
+            email.send()
+            # send_mail(subject, message, email_from, recipient_list)
             messages.success(request, 'Member added successfully')
             return redirect('/create-team')
         else:
@@ -480,14 +545,17 @@ def forgotPassword(request):
         #token and url generation
         token = default_token_generator.make_token(user)
         uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-        reset_link = request.build_absolute_uri(f'/request-password-reset/confirm/{uidb64}/{token}/')
+        link = request.build_absolute_uri(f'/request-password-reset/confirm/{uidb64}/{token}/')
 
         #sending email
         subject = 'Reset Password - Hult Prize'
-        message = f'To reset your password use this link : \n\n {reset_link} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
-        recipient_list = [email]
-        email_from = settings.EMAIL_HOST_USER
-        send_mail(subject, message, email_from, recipient_list,fail_silently=False)
+        context = {'link': link,'request':"You have requested to reset your password. Click the button below to proceed:",'button_name':"Reset Password",'subject':subject}
+        html_message = render_to_string('sendemail.html', context)
+        plain_message = strip_tags(html_message)
+        
+        email = EmailMultiAlternatives(subject, plain_message, settings.EMAIL_HOST_USER, [email])
+        email.attach_alternative(html_message, 'text/html')
+        email.send()
 
         return redirect('reset-token')
 

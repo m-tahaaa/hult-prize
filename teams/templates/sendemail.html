@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Reset Password - Hult Prize</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons" />
+  <style>
+    body {
+      font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+    
+    .header {
+      text-align: center;
+      background: radial-gradient(circle, rgba(255, 0, 98, 0.4) 0%, rgba(9, 9, 121, 0) 70%);
+      background-color: rgb(7, 15, 32);
+      color: white;
+      padding: 30px;
+      border-radius: 10px 10px 10px 10px;
+      width: 55vw;
+      margin: 0px auto;
+
+    }
+    
+    .card {
+      border: 1px solid rgb(226, 226, 226);
+      padding: 20px;
+      border-radius: 10px 10px 10px 10px;
+      max-width: 40vw;
+      margin: 20px auto;
+      box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      background-color: white;
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #ff006a;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      color: #888;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <h1 style="font-size: 2rem; margin: 0;">{{ subject }}</h1>
+  </div>
+  <div class="card">
+    <div>
+      <p>Hello,</p>
+    </div>
+    <div>
+      <p>{{ request }}</p>
+    </div>
+    <div>
+      <p><a href="{{ link }}" style="text-decoration: none;font-weight: bolder;color: white;" class="button">{{ button_name }}</a></p>
+    </div>
+    <div class="footer">
+      <p>Best regards,<br><span style="font-weight: bold;">Team Entrepreneurship Development Cell (EDC NITD)</span></p>
+    </div>
+  </div>
+</body>
+
+</html>
