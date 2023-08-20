@@ -171,6 +171,9 @@ form .field input:focus::placeholder {
 .form-inner form .forgot-password-link{
   text-align: right;
 }
+.form-inner form .forgot-password-link a:hover{
+  text-align: right;
+}
 .form-inner form .pass-link a,
 .form-inner form .signup-link a,
 .form-inner form .forgot-password-link a {
@@ -178,7 +181,7 @@ form .field input:focus::placeholder {
   text-decoration: none;
 }
 .form-inner form .pass-link a:hover,
-.form-inner form .signup-link a:hover,.forgot-password-link a:hover {
+.form-inner form .signup-link a:hover{
   text-decoration: underline;
 }
 form .btn {
