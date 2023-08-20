@@ -1,9 +1,11 @@
+import os
 import uuid, csv
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
+from email.mime.image import MIMEImage
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
@@ -170,6 +172,7 @@ def leaderInvitation(request, token):
 
             email = EmailMultiAlternatives(subject,plain_message,settings.EMAIL_HOST_USER,recipient_list)
             email.attach_alternative(html_message, 'text/html')
+
             email.send()
             #send_mail(subject, message, settings.EMAIL_HOST_USER, recipient_list)
             unverified.delete()
