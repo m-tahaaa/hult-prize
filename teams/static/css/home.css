@@ -388,6 +388,7 @@
   justify-content: flex-start;
   align-items: center;
   padding: 0 10px;
+  background-color: #d1e7dd;
 }
 .alert-success {
   color: #0f5132;

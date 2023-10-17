@@ -38,7 +38,7 @@
 {% block body %}
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }}" role="alert">
-  <strong>Message : </strong> {{ message }}
+  <strong>Message : </strong> &nbsp;{{ message }}
   <button
     type="button"
     class="btn-close"
@@ -166,7 +166,7 @@
             <input type="submit" value="Sign in" id="btnLogin" />
           </div>
           <div class="login-link">
-            Already Have an Account? <a href="/signup">Login</a>
+            Already Have an Account? <a href="/login">Login</a>
           </div>
         </form>
       </div>
