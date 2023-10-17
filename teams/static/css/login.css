@@ -181,7 +181,8 @@ form .field input:focus::placeholder {
   text-decoration: none;
 }
 .form-inner form .pass-link a:hover,
-.form-inner form .signup-link a:hover{
+.form-inner form .signup-link a:hover,
+.form-inner form .forgot-password-link a:hover{
   text-decoration: underline;
 }
 form .btn {
@@ -231,6 +232,7 @@ form .btn input[type="submit"] {
   justify-content: flex-start;
   align-items: center;
   padding: 0 10px;
+  background-color: #fff3cd;
 }
 .alert-success {
   color: #0f5132;
