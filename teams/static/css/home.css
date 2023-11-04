@@ -466,7 +466,7 @@ main .title::after {
   font-size: 1em;
   line-height: 1.75em;
   border-top: 3px solid;
-  -o-border-image: linear-gradient(to right, #743ad5 0%, #d53a9d 100%);
+  border-image: linear-gradient(to right, #743ad5 0%, #d53a9d 100%);
   /* border-image: linear-gradient(to right, #743ad5 0%, #d53a9d 100%); */
   border-image-slice: 1;
   border-width: 3px;
@@ -566,4 +566,30 @@ main .title::after {
 }
 .timelineLink:hover {
   text-decoration: underline;
+}
+.fade-in{
+  opacity: 0;
+  transition: opacity 250ms ease-in;
+
+}
+.fade-in.appear{
+  opacity: 1;
+
+}
+.from-left{
+  transform: translateX(-50%);
+}
+.from-right{
+  transform: translateX(50%);
+}
+.from-left,
+.from-right{
+  transition: opacity 500ms ease-in, transform 600ms ease-in;
+  opacity: 0;
+} 
+
+.from-left.appear,
+.from-right.appear{
+  transform: translateX(0);
+  opacity: 1;
 }
