@@ -54,12 +54,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
   <dotlottie-player src="https://lottie.host/f8eea060-94a4-49c4-ba26-afcaf9db89ef/QE00QfxVj6.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player></div>
 
 {% comment %} Registration closed {% endcomment %}
-{% with registration_closed="true" %}
+{% with registration_closed="false" %} 
 {% comment %}  {% endcomment %}
 <div class="container">
     <div class="button createBtn">
       {% comment %} Registration closed {% endcomment %}
-        <a href="/create-team" title="Registration is now closed" style="background-color:#ffcbe7;pointer-events:none;cursor:not-allowed;">
+        <a href="/create-team" title="Registration is now closed">
             Create Team
         </a>
         {% comment %}  {% endcomment %}
@@ -67,6 +67,39 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome
           My Team
         </a>
     </div>
+
+    <div class="accordion container-accordion my-3" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapse"
+            aria-expanded="true"
+            aria-controls="collapseOne"
+          >
+          Instructions
+          </button>
+        </h2>
+        <div
+          id="collapse{{ index }}{{ forloop.counter0 }}"
+          class="accordion-collapse collapse"
+          aria-labelledby="headingOne"
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body">
+            <br><br>
+            Step 1 : You can either create a new team or join an existing team.
+            <br><br>
+            Step 2 : Joining a team sends an email request to the team leader for approval. Once approved, you will be added to the team
+            <br><br>
+            Step 3 : To create a new team navigate to the form and fill the deatils of your team members which will send an email to them for approval. Once approved, they will be added to your team
+            <br><br>
+          </div>
+        </div>
+      </div>
+  </div>
     
     {% if data|length == 0 %}
     <div class="my-5">

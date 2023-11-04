@@ -370,7 +370,7 @@ def speakers(request):
 
 def joinTeam(request):
     if request.method == 'POST':
-        if Team.objects.filter(user=request.user).first().is_leader == False:
+        if Team.objects.filter(user=request.user).first().is_leader == False and Team.objects.filter(user = request.user).__len__ == 1:
             auth_token = request.POST.get('auth_token')
             team = Team.objects.filter(auth_token=auth_token).first()
             team_from = Team.objects.filter(user=request.user).first()
@@ -395,6 +395,7 @@ def joinTeam(request):
                 team_from.save()
                 messages.success(request, 'Your request has been sent')
                 return redirect('/join-team')
+            
             else:
                 team_timestamp = team_from.can_request_timestamp.date()
                 date_now = datetime.now().date()
@@ -404,9 +405,7 @@ def joinTeam(request):
                     message = f'{request.user.first_name + " " + request.user.last_name} would like to join your team.\nClick on the link to add - https://hult.edcnitd.co.in/accept-invitation/{Team.objects.filter(user=request.user).first().auth_token} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
                     email_from = settings.EMAIL_HOST_USER
                     recipient_list = [team_leader_email]
-
                     context={'link':f'https://hult.edcnitd.co.in/accept-invitation/{Team.objects.filter(user=request.user).first().auth_token}','request':f'{request.user.first_name + " " + request.user.last_name} would like to join your team.\nClick on the link to add','button_name':"Accept Invite",'subject':subject}
-
                     html_message = render_to_string('sendemail.html',context)
                     plain_message = strip_tags(html_message)
 
@@ -422,7 +421,10 @@ def joinTeam(request):
                 messages.error(request, 'Request can been sent only once in 24 hours')
                 return redirect('/join-team')
         else:
-                messages.warning(request, 'You are Team Leader so you cannot join other team. Remove all members from your team to be able join other teams')
+                if Team.objects.filter(user=request.user).first().is_leader == True:
+                    messages.warning(request, 'You are Team Leader so you cannot join other team. Remove all members from your team to be able join other teams')
+                else:
+                    messages.warning(request, 'You are already in a team so you cannot join other team.')
                 return redirect('/join-team')
     else:
         if request.user.is_authenticated:
@@ -536,6 +538,7 @@ def acceptInvitation(request, auth_token):
     else:
         messages.error(request, 'Please login first to add team member')
         return redirect('/login')
+    
 def forgotPassword(request):
     if request.method == 'POST':
         email = request.POST.get('email')
