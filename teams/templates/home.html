@@ -58,7 +58,7 @@ href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
 
 <!-- content -->
 <section>
-  <div class="container container-first container-odd">
+  <div class="container container-first container-odd fade-in">
     <div class="textContent">
       <h1 class="heading">What is the Hult Prize?</h1>
       <p class="content">
@@ -74,10 +74,10 @@ href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
     </div>
   </div>
   <div class="container container-even">
-    <div class="imageContent">
+    <div class="imageContent from-left slide-in">
       <img src="{% static 'assets/brooke-cagle-g1Kr4Ozfoac-unsplash.jpg' %}" />
     </div>
-    <div class="textContent">
+    <div class="textContent from-right slide-in">
       <h1 class="heading">
         Why you should participate?
       </h1>
@@ -94,7 +94,7 @@ href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
   </div>
   <div class="container container-odd">
     
-    <div class="textContent">
+    <div class="textContent from-left slide-in">
       <h1 class="heading">
         This Year's Theme
       </h1>
@@ -109,15 +109,15 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
       <a href="https://a.storyblok.com/f/133195/x/c87070884e/2023-hult-prize-challenge.pdf" target="_blank">
         Download the Challenge Pdf <i class="fa fa-file-pdf-o"></i> </a>
     </div>
-    <div class="imageContent">
+    <div class="imageContent from-right slide-in">
       <img src="{% static 'assets/challenge.png' %}" />
     </div>
   </div>
   <div class="container container-last container-even">
-    <div class="imageContent">
+    <div class="imageContent from-left slide-in">
       <img src="{% static 'assets/0x0.jpg' %}" alt="" />
     </div>
-    <div class="textContent">
+    <div class="textContent from-right slide-in">
       <h1 class="heading">How to Register?</h1>
       <p class="content">
         To participate you must have at least 3 and maximum of 4 members in your team. <br><br>
@@ -180,7 +180,7 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
 </main>
 
 <!-- Swiper -->
-<div class="swiper mySwiper" id="swiper">
+<div class="swiper mySwiper fade-in" id="swiper">
     <div class="swiper-wrapper">
 
       <!-- slide 7 -->
@@ -496,6 +496,32 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
     });
   }
 </script>
+<script>
+  const faders = document.querySelectorAll('.fade-in');
+  const sliders = document.querySelectorAll('.slide-in');
+  const appearOptions = {
+    threshold: 0.7,
+    rootMargin: "0px 0px 100px 0px"
+  };
+  const appearOnScroll = new IntersectionObserver(function(
+    entries,
+    appearOnScroll){entries.forEach(entry => {
+      if (!entry.isIntersecting) {
+        return;
+      }
+      else{
+        entry.target.classList.add('appear');
+        appearOnScroll.unobserve(entry.target);
+  
+      }
+    })}, appearOptions);
+  
+  faders.forEach(fader => {
+    appearOnScroll.observe(fader);
+  })
+  sliders.forEach(slider => {
+    appearOnScroll.observe(slider);
+  })
+</script>
 {% endblock script %}
-
 
