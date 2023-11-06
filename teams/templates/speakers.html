@@ -4,17 +4,16 @@
 {% block css %}
 <style>
   #preloader{
-  background: white no-repeat center center;
+  background-color: white;
   align-items: center;
   justify-content: center;
   display: flex;
-  background-size: 10%;
   z-index: 100;
   height: 100vh;
   width: 100vw;
   position: fixed;
+  
 }
-
   .burger {
     position: absolute;
     right: 15px;
@@ -31,7 +30,11 @@
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 /> -->
+<<<<<<< HEAD
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+=======
+
+>>>>>>> d97be39 (merge fix with shagun)
 <link rel="stylesheet" href="{%static 'css/home.css'%}" />
 <link rel="stylesheet" href="{% static 'css/speakers.css' %}" />
 {% endblock css %} 
@@ -39,8 +42,15 @@
 {% block body %}
 
 <!-- preloader -->
+<<<<<<< HEAD
 <div id="preloader"><script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
   <dotlottie-player src="https://lottie.host/f8eea060-94a4-49c4-ba26-afcaf9db89ef/QE00QfxVj6.json" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></dotlottie-player></div>
+=======
+<div id="preloader">
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+  <dotlottie-player src="https://lottie.host/f8eea060-94a4-49c4-ba26-afcaf9db89ef/QE00QfxVj6.json" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></dotlottie-player>
+</div>
+>>>>>>> d97be39 (merge fix with shagun)
 <section>
   {% for speaker in speakers %}
   {% if forloop.counter0|divisibleby:2 %}
