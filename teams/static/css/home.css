@@ -212,11 +212,20 @@
   align-items: center;
   justify-content: center;
 }
+.circle a{
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+}
 .circle:hover {
   background-color: rgb(230, 0, 127);
   cursor: pointer;
 }
 .socials i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: black;
   width: 100%;
   margin: 3.5px;
