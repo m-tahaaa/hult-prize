@@ -4,19 +4,24 @@
 {% block css %}
 <style>
   #preloader{
-  background: white url("{%static 'assets/spinner-gif.gif' %}") no-repeat center center;
+  background: white no-repeat center center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
   background-size: 10%;
   z-index: 100;
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   position: fixed;
+  
 }
 </style>
 <!-- icons -->
-<link
+<!-- <link
 rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-/>
+/> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- swiper css -->
 <link
 rel="stylesheet"
@@ -52,7 +57,10 @@ href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
 {% endfor %}
 
 <!-- preloader -->
-<div id="preloader"></div>
+<div id="preloader">
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+  <dotlottie-player src="https://lottie.host/f8eea060-94a4-49c4-ba26-afcaf9db89ef/QE00QfxVj6.json" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></dotlottie-player>
+</div>
 
 <div class="extraMargin"></div>
 
@@ -99,23 +107,24 @@ href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
         This Year's Theme
       </h1>
       <p class="content">
-        The Hult Prize organization has officially announced this year's problem statement: "Fashion urgently needs a makeover."
+        The Hult Prize organization has officially announced this year's problem statement: "An idea with a global impact and alignment with at least one Sustainable Development Goal."
         <br>
-Fashion is the world's  second most polluting industry with unsustainability and inhuman working conditions. You will need to brainstorm a game changing social venture that aligns with U.N Sustainable Development goals and positively impacts one or more key stages of the fashion value chain. 
+        This year, you can pitch any idea you have for a social enterprise, as long as it is world-changing and aligned with at least one of the United Nations Sustainable Development Goals (SDGs). 
 <br>
 The clock is ticking, so pull your socks up and start working on your B-plan.
  <br>
       </p>
-      <a href="https://a.storyblok.com/f/133195/x/c87070884e/2023-hult-prize-challenge.pdf" target="_blank">
+      <a href= https://a.storyblok.com/f/133195/x/9b00d13b31/hult-prize-2024-challenge-unlimited.pdf
+      target="_blank">
         Download the Challenge Pdf <i class="fa fa-file-pdf-o"></i> </a>
     </div>
-    <div class="imageContent from-right slide-in">
-      <img src="{% static 'assets/challenge.png' %}" />
+    <div class="imageContent">
+      <img src="{% static 'assets/challenge.webp' %}" />
     </div>
   </div>
   <div class="container container-last container-even">
-    <div class="imageContent from-left slide-in">
-      <img src="{% static 'assets/0x0.jpg' %}" alt="" />
+    <div class="imageContent">
+      <img src="{% static 'assets/0x0.webp' %}" alt="" />
     </div>
     <div class="textContent from-right slide-in">
       <h1 class="heading">How to Register?</h1>
@@ -135,7 +144,7 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
 
 <!-- 1 -->
   <div class="timeline">
-    <h3 class="heading-timeline">REGISTRATIONS OPEN - 12 December 2022 </h3>
+    <h3 class="heading-timeline">REGISTRATIONS OPEN - 27 November 2023 </h3>
     <p class="content-timeline">
       Registrations opened for the application of Hult Prize
       <br>
@@ -145,7 +154,7 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
   </div>
   <!-- 2 -->
   <div class="timeline">
-    <h3 class="heading-timeline">REGISTRATIONS CLOSE - 20 December 2022 </h3>
+    <h3 class="heading-timeline">REGISTRATIONS CLOSE - 20 December 2023 </h3>
     <p class="content-timeline">
       Registrations will close for the On Campus Hult Prize on 20th December.
       <br>
@@ -154,25 +163,33 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
   </div>
   <!-- 3 -->
   <div class="timeline">
-    <h3 class="heading-timeline">MOCK SESSION - 27 December 2022 </h3>
+    <h3 class="heading-timeline">ON CAMPUS ORIENTATION - 14 December 2023 </h3>
     <p class="content-timeline">
-      There will be a mock session with 3 mentors on 27th December. 
+      There will be an oncampus orientation on 14th December. 
       <br>
     </p>
   </div>
   <!-- 4 -->
   <div class="timeline">
-    <h3 class="heading-timeline">ONCAMPUS ROUNDS - 29,30 December 2022 </h3>
+    <h3 class="heading-timeline">MOCK SESSION - 21 December 2023 </h3>
     <p class="content-timeline">
-      The much awaited On Campus Hult Prize round starts on 29th and continues till 30th.
+      There will be a mock session with 3 mentors on 21st December. 
       <br>
     </p>
   </div>
   <!-- 5 -->
   <div class="timeline">
-    <h3 class="heading-timeline">ONCAMPUS ROUNDS WINNER DECLARATION - 2 January 2023 </h3>
+    <h3 class="heading-timeline">ONCAMPUS ROUNDS - 23,24,25th December 2023 </h3>
     <p class="content-timeline">
-      The winners for the On Campus Hult Prize round will be declared on 2nd Jan 2023.
+      The much awaited On Campus Hult Prize round starts on 23rd and continues till 25th.
+      <br>
+    </p>
+  </div>
+  <!-- 6 -->
+  <div class="timeline">
+    <h3 class="heading-timeline">ONCAMPUS ROUNDS WINNER DECLARATION - 2 January 2024 </h3>
+    <p class="content-timeline">
+      The winners for the On Campus Hult Prize round will be declared on 2nd Jan 2024.
       <br>
     </p>
   </div>
@@ -193,7 +210,7 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
         <div class="swiperContent">
             <div class="title">
               <h3>Winners</h3>
-                <h2>2022</h2>
+                <h2>2023</h2>
             </div>
             <p class="contentTransition" id="contentTransition">
               Team EDC is proud to announce Team "Neo Dynamo" as the winning team of 
@@ -217,7 +234,7 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
         <div class="swiperContent">
             <div class="title">
               <h3>Runnerups</h3>
-                <h2>2022</h2>
+                <h2>2023</h2>
             </div>
             <p class="contentTransition" id="contentTransition">
               Team EDC is proud to announce Team " Dumbledore " as the joint runner up of HULT 
@@ -241,7 +258,7 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
         <div class="swiperContent">
             <div class="title">
               <h3>Runnerups</h3>
-                <h2>2022</h2>
+                <h2>2023</h2>
             </div>
             <p class="contentTransition" id="contentTransition">
               Team EDC is proud to announce Team " Style_Swap " as the joint runner up of HULT Prize 
@@ -407,11 +424,11 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
         Entrepreneurship <br />
         Development Cell
       </h2>
-      <h3>Nit Durgapur</h3>
+      <h3>NIT Durgapur</h3>
     </div>
     <p>
       Made with <i class="fa fa-heart" aria-hidden="true"></i> by Web-Team
-      <br />© 2022 EDC. All Rights Reserved.
+      <br />© 2023 EDC. All Rights Reserved.
     </p>
   </div>
   <div class="middleFooter">
@@ -419,41 +436,40 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
       <h2>CONTACT US</h2>
     </div>
     <p>
-      <i class="fa fa-map-marker"></i> : Mahatma Gandhi Avenue,<br />
+      <i class="fa-solid fa-map-pin"></i>: Mahatma Gandhi Avenue,<br />
       A-Zone, Durgapur, West Bengal <br />
       Durgapur: 713209
       <br />
-      <i class="fa fa-phone"></i> : +91 9123001251(Purvi)
+      <i class="fa-solid fa-phone"></i>: +91 8335810111(Yash)
       <br>
-      <i class="fa fa-phone"></i> : +91 8335810111(Yash)
+      <i class="fa-solid fa-phone"></i>: +91 9391327967(Sankeerth)
       <br />
-      <i class="fa fa-envelope-o"></i> : edc@nitdgp.ac.in
+      <i class="fa-solid fa-envelope"></i> : edc@nitdgp.ac.in
     </p>
     <div class="socials">
       <div class="circle" id="twitter">
         <a href="https://twitter.com/edcnitd" target="_blank" rel="noopener noreferrer"
-          ><i id="twitter-icon" class="fa fa-twitter"></i
+          ><i id="twitter-icon" class="fa-brands fa-x-twitter"></i
         ></a>
       </div>
       <div class="circle" id="fb">
         <a href="https://www.facebook.com/edc.nitd" target="_blank" rel="noopener noreferrer"
-          ><i id="fb-icon" class="fa fa-facebook"></i
+          ><i id="fb-icon" class="fa-brands fa-facebook"></i
         ></a>
       </div>
       <div class="circle" id="insta">
         <a href="https://www.instagram.com/edc.nitd/" target="_blank" rel="noopener noreferrer"
-          ><i id="insta-icon" class="fa fa-instagram"></i
+          ><i id="insta-icon" class="fa-brands fa-instagram"></i
         ></a>
       </div>
       <div class="circle" id="yt">
         <a href="https://www.youtube.com/@entrepreneurshipdevelopmen7605" target="_blank" rel="noopener noreferrer"
-          ><i id="yt-icon" class="fa fa-youtube"></i
+          ><i id="yt-icon" class="fa-brands fa-youtube"></i
         ></a>
       </div>
       <div class="circle" id="linkedin">
         <a href="https://in.linkedin.com/company/edcnitd" target="_blank" rel="noopener noreferrer"
-          ><i id="linkedin-icon" class="fa fa-linkedin"></i
-        ></a>
+          ><i id="linkedin-icon" class="fa-brands fa-linkedin"></i></a>
       </div>
     </div>
   </div>
