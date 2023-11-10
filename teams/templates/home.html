@@ -66,8 +66,8 @@ href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
 
 <!-- content -->
 <section>
-  <div class="container container-first container-odd fade-in">
-    <div class="textContent">
+  <div class="container container-first container-odd">
+    <div class="textContent fade-in">
       <h1 class="heading">What is the Hult Prize?</h1>
       <p class="content">
         The Hult Prize Foundation transforms how young people envision their own possibillities
@@ -77,13 +77,13 @@ href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
         take action to build a better world.
       </p>
     </div>
-    <div class="imageContent">
+    <div class="imageContent fade-in">
       <img src="{% static 'assets/pic1.png' %}" />
     </div>
   </div>
   <div class="container container-even">
-    <div class="imageContent from-left slide-in">
-      <img src="{% static 'assets/brooke-cagle-g1Kr4Ozfoac-unsplash.jpg' %}" />
+    <div class="imageContent fade-in">
+      <img src="{% static 'assets/teamwork.webp' %}" />
     </div>
     <div class="textContent from-right slide-in">
       <h1 class="heading">
@@ -102,12 +102,12 @@ href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
   </div>
   <div class="container container-odd">
     
-    <div class="textContent from-left slide-in">
+    <div class="textContent from-right slide-in">
       <h1 class="heading">
         This Year's Theme
       </h1>
       <p class="content">
-        The Hult Prize organization has officially announced this year's problem statement: "An idea with a global impact and alignment with at least one Sustainable Development Goal."
+        The Hult Prize organization has officially announced this year's problem statement: <br>"An idea with a global impact and alignment with at least one Sustainable Development Goal."
         <br>
         This year, you can pitch any idea you have for a social enterprise, as long as it is world-changing and aligned with at least one of the United Nations Sustainable Development Goals (SDGs). 
 <br>
@@ -118,15 +118,15 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
       target="_blank">
         Download the Challenge Pdf <i class="fa fa-file-pdf-o"></i> </a>
     </div>
-    <div class="imageContent">
+    <div class="imageContent fade-in">
       <img src="{% static 'assets/challenge.webp' %}" />
     </div>
   </div>
   <div class="container container-last container-even">
-    <div class="imageContent">
+    <div class="imageContent fade-in">
       <img src="{% static 'assets/0x0.webp' %}" alt="" />
     </div>
-    <div class="textContent from-right slide-in">
+    <div class="textContent slide-in from-right">
       <h1 class="heading">How to Register?</h1>
       <p class="content">
         To participate you must have at least 3 and maximum of 4 members in your team. <br><br>
@@ -446,6 +446,7 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
       <br />
       <i class="fa-solid fa-envelope"></i> : edc@nitdgp.ac.in
     </p>
+    <br>
     <div class="socials">
       <div class="circle" id="twitter">
         <a href="https://twitter.com/edcnitd" target="_blank" rel="noopener noreferrer"
@@ -528,7 +529,7 @@ The clock is ticking, so pull your socks up and start working on your B-plan.
       else{
         entry.target.classList.add('appear');
         appearOnScroll.unobserve(entry.target);
-  
+        console.log("hi");
       }
     })}, appearOptions);
   
