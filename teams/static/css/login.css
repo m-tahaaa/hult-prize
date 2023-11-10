@@ -168,13 +168,21 @@ form .field input:focus::placeholder {
   margin-top: 30px;
   /* margin-bottom: 8px; */
 }
+.form-inner form .forgot-password-link{
+  text-align: right;
+}
+.form-inner form .forgot-password-link a:hover{
+  text-align: right;
+}
 .form-inner form .pass-link a,
-.form-inner form .signup-link a {
+.form-inner form .signup-link a,
+.form-inner form .forgot-password-link a {
   color: crimson;
   text-decoration: none;
 }
 .form-inner form .pass-link a:hover,
-.form-inner form .signup-link a:hover {
+.form-inner form .signup-link a:hover,
+.form-inner form .forgot-password-link a:hover{
   text-decoration: underline;
 }
 form .btn {
@@ -224,6 +232,7 @@ form .btn input[type="submit"] {
   justify-content: flex-start;
   align-items: center;
   padding: 0 10px;
+  background-color: #fff3cd;
 }
 .alert-success {
   color: #0f5132;

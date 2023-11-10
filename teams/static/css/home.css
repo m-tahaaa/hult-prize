@@ -75,7 +75,7 @@
 
 .imageContent {
   width: 50%;
-  padding: 25px;
+  padding: 50px;
 }
 .imageContent img {
   width: 100%;
@@ -212,11 +212,21 @@
   align-items: center;
   justify-content: center;
 }
+.circle a{
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+}
 .circle:hover {
   background-color: rgb(230, 0, 127);
   cursor: pointer;
 }
+
 .socials i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: black;
   width: 100%;
   margin: 3.5px;
@@ -388,6 +398,7 @@
   justify-content: flex-start;
   align-items: center;
   padding: 0 10px;
+  background-color: #d1e7dd;
 }
 .alert-success {
   color: #0f5132;
@@ -466,7 +477,7 @@ main .title::after {
   font-size: 1em;
   line-height: 1.75em;
   border-top: 3px solid;
-  -o-border-image: linear-gradient(to right, #743ad5 0%, #d53a9d 100%);
+  border-image: linear-gradient(to right, #743ad5 0%, #d53a9d 100%);
   /* border-image: linear-gradient(to right, #743ad5 0%, #d53a9d 100%); */
   border-image-slice: 1;
   border-width: 3px;
@@ -566,4 +577,29 @@ main .title::after {
 }
 .timelineLink:hover {
   text-decoration: underline;
+}
+.fade-in{
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
+.fade-in.appear{
+  opacity: 1;
+
+}
+.from-left{
+  transform: translateX(-50%);
+}
+.from-right{
+  transform: translateX(50%);
+}
+.from-left,
+.from-right{
+  transition: opacity 500ms ease-in, transform 600ms ease-in;
+  opacity: 0;
+} 
+
+.from-left.appear,
+.from-right.appear{
+  transform: translateX(0);
+  opacity: 1;
 }
