@@ -25,3 +25,16 @@
   background-color: rgba(230, 0, 127, 0.09);
   color: black;
 }
+
+.bottomYear{
+  border-bottom: 4px solid rgb(230, 0, 127);
+}
+
+.Year .heading{
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 21%;
+  max-width: min-content;
+  margin: 0px auto;
+}

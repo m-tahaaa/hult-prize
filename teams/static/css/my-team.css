@@ -339,6 +339,14 @@ button:disabled:hover {
   align-items: center;
   justify-content: center;
 }
+
+.circle a{
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+}
+
 .circle:hover {
   background-color: rgb(230, 0, 127);
   cursor: pointer;
