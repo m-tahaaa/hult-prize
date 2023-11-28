@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Oswald:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+
 .container {
   /* margin-inline: 3%; */
   margin-block: 2%;
@@ -190,6 +196,8 @@ button:disabled:hover {
   width: 100%;
   height: 400px;
   padding-top: 50px;
+  position: relative;
+  bottom: 0;
 }
 
 .leftFooter {
@@ -247,11 +255,21 @@ button:disabled:hover {
   align-items: center;
   justify-content: center;
 }
+.circle a{
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+}
 .circle:hover {
   background-color: rgb(230, 0, 127);
   cursor: pointer;
 }
+
 .socials i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: black;
   width: 100%;
   margin: 3.5px;
@@ -260,6 +278,7 @@ button:disabled:hover {
 .rightFooter {
   width: 33%;
   padding: 40px;
+  padding-bottom: 0px;
 }
 .rightFooter h2 {
   font-size: 15px;

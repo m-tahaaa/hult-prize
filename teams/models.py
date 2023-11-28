@@ -40,7 +40,7 @@ class Speaker(models.Model):
         validators=[
             MinValueValidator(1900),
             MaxValueValidator(2100)
-        ],default=timezone.now().year,)
+        ],blank=True)
     def __str__(self):
         return "Speaker | " + self.name
 

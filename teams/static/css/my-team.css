@@ -326,6 +326,11 @@ button:disabled:hover {
   font-size: 15px;
   line-height: 25px;
 }
+
+.middleFooter i{
+  color: white;
+}
+
 .socials {
   display: flex;
 }
