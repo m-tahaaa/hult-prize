@@ -355,7 +355,9 @@ def faqs(request):
     return render(request, 'faqs.html', { 'faqs': faqs })
 
 def speakers(request):
-    speakers = Speaker.objects.all()
+    speakers = Speaker.objects.all().order_by('year').reverse()
+    unique_years = Speaker.objects.values_list('year', flat=True).order_by('year').reverse().distinct()
+    print(unique_years)
     data = []
     for i in speakers:
         faqs = SpeakersFaq.objects.filter(speaker=i).all()
@@ -366,7 +368,7 @@ def speakers(request):
                 'answer': q.answer
             })
         data.append(faq)
-    return render(request, 'speakers.html', { 'speakers': speakers, 'data': data })
+    return render(request, 'speakers.html', { 'speakers': speakers, 'data': data , 'uniqueyears': unique_years })
 
 def joinTeam(request):
     if request.method == 'POST':

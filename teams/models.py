@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 
 class Team(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -34,6 +36,11 @@ class Speaker(models.Model):
     name = models.CharField(max_length=200)
     about = models.TextField()
     photo = models.FileField(upload_to='speakers/')
+    year = models.IntegerField(
+        validators=[
+            MinValueValidator(1900),
+            MaxValueValidator(2100)
+        ],blank=True)
     def __str__(self):
         return "Speaker | " + self.name
 

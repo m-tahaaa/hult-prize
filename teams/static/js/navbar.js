@@ -1,7 +1,7 @@
 let loader = document.getElementById("preloader");
 
 window.addEventListener("load", () => {
-  setTimeout(() => {loader.style.display = "none";}, 2700);
+  setTimeout(() => {loader.style.display = "none";}, 1000);
 });
 
 let navbarResp = document.getElementById("navbar-resp");

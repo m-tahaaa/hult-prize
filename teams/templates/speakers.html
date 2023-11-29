@@ -14,10 +14,10 @@
   position: fixed;
   
 }
-  .burger {
+.burger {
     position: absolute;
     right: 15px;
-  }
+}
 </style>
 <link
   href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
@@ -39,15 +39,22 @@
 
 <!-- preloader -->
 <div id="preloader">
-  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
-  <dotlottie-player src="https://lottie.host/f8eea060-94a4-49c4-ba26-afcaf9db89ef/QE00QfxVj6.json" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></dotlottie-player>
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+
+    <dotlottie-player src="https://lottie.host/8ae3c606-6f7b-4e53-ab1a-4b7a7b1beed6/eVbvolOi7R.json" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></dotlottie-player>
 </div>
 <section>
+  {% for year in uniqueyears %}
+  <br>
+    <div class = "Year">
+      <h1 class="heading bottomYear">{{ year }}</h1>
+    </div>
   {% for speaker in speakers %}
+  {% if speaker.year == year %}
   {% if forloop.counter0|divisibleby:2 %}
   <div class="container container-first container-odd my-3">
     <div class="textContent">
-      <h1 class="heading">{{ speaker.name }}</h1>
+      <h1 class="heading ">{{ speaker.name }}</h1>
       <p class="content">
         {{ speaker.about }}
       </p>
@@ -105,6 +112,8 @@
     {% endfor %}
     {% endwith %}
 </div>
+  {% endif %}
+  {% endfor %}
   {% endfor %}
 </section>
 
@@ -129,11 +138,13 @@
       <h2>CONTACT US</h2>
     </div>
     <p>
-      <i class="fa-solid fa-map-pin"></i>: Mahatma Gandhi Avenue,<br />
+      <i class="fa-solid fa-map-pin"></i>&nbsp;: Mahatma Gandhi Avenue,<br />
       A-Zone, Durgapur, West Bengal <br />
       Durgapur: 713209
       <br />
-      <i class="fa-solid fa-phone"></i>&nbsp;: +91 90976 16014 (Ritesh Raj Sharma)
+      <i class="fa-solid fa-phone"></i>&nbsp;: +91 8335810111(Yash)
+      <br>
+      <i class="fa-solid fa-phone"></i>&nbsp;: +91 9391327967(Sankeerth)
       <br />
       <i class="fa-solid fa-envelope"></i>&nbsp;: edc@nitdgp.ac.in
     </p>

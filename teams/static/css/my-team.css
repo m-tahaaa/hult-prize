@@ -326,6 +326,11 @@ button:disabled:hover {
   font-size: 15px;
   line-height: 25px;
 }
+
+.middleFooter i{
+  color: white;
+}
+
 .socials {
   display: flex;
 }
@@ -339,6 +344,14 @@ button:disabled:hover {
   align-items: center;
   justify-content: center;
 }
+
+.circle a{
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+}
+
 .circle:hover {
   background-color: rgb(230, 0, 127);
   cursor: pointer;
@@ -375,11 +388,14 @@ button:disabled:hover {
   color: rgb(230, 0, 127);
 }
 
+
+
 /* footer responsive */
 @media only screen and (max-width: 970px) {
   .footer {
     flex-direction: column;
-    height: 900px;
+    min-height: 1000px;
+    background-color: rgb(23, 23, 23);
   }
   .leftFooter {
     width: 100%;
@@ -397,6 +413,12 @@ button:disabled:hover {
   }
   .rightFooter {
     width: 100%;
+  }
+}
+@media only screen and (min-width: 970px) {
+  .footer {
+    position: absolute;
+    bottom: 0;
   }
 }
 

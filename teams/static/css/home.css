@@ -262,7 +262,7 @@
 @media only screen and (max-width: 970px) {
   .footer {
     flex-direction: column;
-    height: 900px;
+    height: 1000px;
   }
   .leftFooter {
     width: 100%;
