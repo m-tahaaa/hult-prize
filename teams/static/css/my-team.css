@@ -415,7 +415,7 @@ button:disabled:hover {
     width: 100%;
   }
 }
-@media only screen and (min-width: 1370px) {
+@media only screen and (min-height: 1070px) {
   .footer {
     position: absolute;
     bottom: 0;
