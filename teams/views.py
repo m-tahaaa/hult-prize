@@ -248,7 +248,6 @@ def handleSignUp(request):
             sendMail(email, auth_token)
             return redirect('/token')
         except Exception as e:
-            print(e)
             messages.error(request, 'Error occured')
             return redirect('/')
     else:
@@ -357,7 +356,6 @@ def faqs(request):
 def speakers(request):
     speakers = Speaker.objects.all().order_by('year').reverse()
     unique_years = Speaker.objects.values_list('year', flat=True).order_by('year').reverse().distinct()
-    print(unique_years)
     data = []
     for i in speakers:
         faqs = SpeakersFaq.objects.filter(speaker=i).all()

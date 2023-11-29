@@ -20,11 +20,9 @@ let hover = true;
 
 swiperArea.addEventListener("mouseover", () => {
   hover = true;
-  console.log("true");
 });
 swiperArea.addEventListener("mouseout", () => {
   hover = false;
-  console.log("false ");
 });
 // window.setInterval(() => {
 //   if (!hover) {
