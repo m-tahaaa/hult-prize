@@ -306,7 +306,7 @@ button:disabled:hover {
 @media only screen and (max-width: 970px) {
   .footer {
     flex-direction: column;
-    height: 900px;
+    height: 1000px;
   }
   .leftFooter {
     width: 100%;
@@ -316,6 +316,12 @@ button:disabled:hover {
   }
   .rightFooter {
     width: 50%;
+  }
+}
+@media only screen and (min-width: 970px) {
+  .footer {
+    position: absolute;
+    bottom: 0;
   }
 }
 @media only screen and (max-width: 600px) {
