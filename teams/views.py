@@ -29,6 +29,10 @@ def team(request):
 
 def createTeam(request):
     if request.method == "POST":
+        # Registration closed
+        messages.warning(request, 'Registration is now closed')
+        return redirect('/join-team')
+        #
         team_name = request.POST.get('team_name')
         if team_name == '':
             messages.error(request, 'Team name is required')
@@ -124,6 +128,10 @@ def createTeam(request):
         messages.warning(request, 'After the invitation has been accepted, it will be visible here')
         return redirect('/create-team')
     if request.user.is_authenticated:
+        # Registration closed
+        messages.warning(request, 'Registration is now closed')
+        return redirect('/join-team')
+        #
         team = Team.objects.filter(user=request.user).first()
         team_members = TeamMember.objects.filter(team=team).all()
         return render(request, 'create-team.html', { 'team_members': team_members, 'team': team })
@@ -183,6 +191,7 @@ def leaderInvitation(request, token):
 
 def handleLogin(request):
     if request.method == 'POST':
+
         username = request.POST.get('username')
         password = request.POST.get('password')
         user_obj = User.objects.filter(username=username).first()
@@ -221,6 +230,10 @@ def handleLogout(request):
 
 def handleSignUp(request):
     if request.method == 'POST':
+        # Registration closed
+        messages.warning(request, 'Registration is now closed')
+        return redirect('/')
+        #
         username = request.POST.get('username')
         email = request.POST.get('email')
         first_name = request.POST.get('first_name')
@@ -254,7 +267,12 @@ def handleSignUp(request):
         if request.user.is_authenticated:
             return redirect('/create-team')
         else:
+            # Registration closed
+            messages.warning(request, 'Registration is now closed')
+            return redirect('/login')
+            #
             return render(request, 'signup.html')
+        
 
 def token(request):
     return render(request, 'token.html')
@@ -370,6 +388,10 @@ def speakers(request):
 
 def joinTeam(request):
     if request.method == 'POST':
+        # Registration closed
+        messages.warning(request, 'Registration is now closed')
+        return redirect('/join-team')
+        #
         if Team.objects.filter(user=request.user).first().is_leader == False and Team.objects.filter(user = request.user).__len__ == 1:
             auth_token = request.POST.get('auth_token')
             team = Team.objects.filter(auth_token=auth_token).first()
@@ -468,6 +490,9 @@ def joinTeam(request):
                         'can_request': can_request,
                         'no_of_members': no_of_members
                     })
+            # Registration closed
+            messages.warning(request, 'Registration is now closed')
+            # 
             return render(request, 'join-team.html', { 'data': data })
         else:
             return redirect('/')
