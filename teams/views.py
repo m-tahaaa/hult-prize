@@ -191,7 +191,7 @@ def leaderInvitation(request, token):
 
 def handleLogin(request):
     if request.method == 'POST':
-        
+
         username = request.POST.get('username')
         password = request.POST.get('password')
         user_obj = User.objects.filter(username=username).first()
@@ -566,10 +566,6 @@ def acceptInvitation(request, auth_token):
     
 def forgotPassword(request):
     if request.method == 'POST':
-        # Registration closed
-        messages.warning(request, 'Registration is now closed')
-        return redirect('/')
-        #
         email = request.POST.get('email')
         try:
             user = User.objects.get(email = email)
