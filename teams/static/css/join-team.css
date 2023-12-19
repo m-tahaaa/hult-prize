@@ -320,7 +320,7 @@ button:disabled:hover {
 }
 @media only screen and (min-height: 1070px) {
   .footer {
-    position: absolute;
+    position: relative;
     bottom: 0;
   }
 }
