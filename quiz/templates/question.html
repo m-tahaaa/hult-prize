@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ question.question_text }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {% if question.question_type == 'mcq' %}
+        {% for choice in question.choices.all %}
+            <div>
+                <input type="radio" name="choice" value="{{ choice.id }}"> {{ choice.choice_text }}
+            </div>
+        {% endfor %}
+    {% else %}
+        <textarea name="answer" rows="4" cols="50"></textarea>
+    {% endif %}
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}
