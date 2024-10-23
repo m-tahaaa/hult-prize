@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Quiz
+{% endblock title %}
+
+{% block body %}
+  <main>
+    <div style="text-align: center; padding: 50px;">
+      <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+
+      <dotlottie-player 
+        src="https://lottie.host/2c90c1fd-c349-4642-97cf-78b0d40c85c3/3cc9MswiRj.json" 
+        background="transparent" 
+        speed="1" 
+        style="width: 500px; height: 500px; margin: auto;" 
+        loop autoplay>
+      </dotlottie-player>
+    </div>
+  </main>
+{% endblock body %}
