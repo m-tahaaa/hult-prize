@@ -14,6 +14,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.shortcuts import HttpResponse, redirect, render
 from .models import Team, TeamMember, Faq, Speaker, UnverifiedTeamMember, SpeakersFaq
 from datetime import datetime
+from django.core.mail import send_mail
 
 
 def home(request):
@@ -29,10 +30,10 @@ def team(request):
 
 def createTeam(request):
     if request.method == "POST":
-        # Registration closed
+        '''# Registration closed
         messages.warning(request, 'Registration is now closed')
         return redirect('/join-team')
-        #
+        #'''
         team_name = request.POST.get('team_name')
         if team_name == '':
             messages.error(request, 'Team name is required')
@@ -128,15 +129,16 @@ def createTeam(request):
         messages.warning(request, 'After the invitation has been accepted, it will be visible here')
         return redirect('/create-team')
     if request.user.is_authenticated:
-        # Registration closed
+        '''# Registration closed
         messages.warning(request, 'Registration is now closed')
         return redirect('/join-team')
-        #
+        #'''
         team = Team.objects.filter(user=request.user).first()
         team_members = TeamMember.objects.filter(team=team).all()
         return render(request, 'create-team.html', { 'team_members': team_members, 'team': team })
     else:
         return redirect('/')
+       
 
 def leaderInvitation(request, token):
     if request.method == 'GET':
@@ -230,10 +232,10 @@ def handleLogout(request):
 
 def handleSignUp(request):
     if request.method == 'POST':
-        # Registration closed
+        '''# Registration closed
         messages.warning(request, 'Registration is now closed')
         return redirect('/')
-        #
+        #'''
         username = request.POST.get('username')
         email = request.POST.get('email')
         first_name = request.POST.get('first_name')
@@ -241,7 +243,12 @@ def handleSignUp(request):
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
         phone_no = request.POST.get('phone-no')
+        print(f"Form data - Username: {username}, Email: {email}, First Name: {first_name}, Last Name: {last_name}, Phone No: {phone_no}")
+
         try:
+            # if not email.endswith('@nitdgp.ac.in'):
+            #     messages.warning(request, 'Please use a valid @nitdgp.ac.in email address.')
+            #     return redirect('/signup')
             if User.objects.filter(username=username).first():
                 messages.warning(request, 'Username is already taken')
                 return redirect('/signup')
@@ -261,16 +268,17 @@ def handleSignUp(request):
             sendMail(email, auth_token)
             return redirect('/token')
         except Exception as e:
+            print(f"Error occurred: {e}")
             messages.error(request, 'Error occured')
             return redirect('/')
     else:
         if request.user.is_authenticated:
             return redirect('/create-team')
         else:
-            # Registration closed
+            '''# Registration closed
             messages.warning(request, 'Registration is now closed')
             return redirect('/login')
-            #
+            #'''
             return render(request, 'signup.html')
         
 
@@ -280,17 +288,17 @@ def token(request):
 def sendMail(email, token):
     subject = 'Verify your account - Hult Prize'
     message = f'Please click the link to verify your account https://hult.edcnitd.co.in/verify/{token} \n\nWith Regards,\nTeam Entrepreneurship Development Cell (EDC NITD)'
-    email_from = settings.EMAIL_HOST_USER
+    # email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
-    context={'link':f'https://hult.edcnitd.co.in/verify/{token}','request':f'Please click the link to verify your account','button_name':"Verify Email",'subject':subject}
+    # context={'link':f'https://hult.edcnitd.co.in/verify/{token}','request':f'Please click the link to verify your account','button_name':"Verify Email",'subject':subject}
 
-    html_message = render_to_string('sendemail.html',context)
-    plain_message = strip_tags(html_message)
+    # html_message = render_to_string('sendemail.html',context)
+    # plain_message = strip_tags(html_message)
 
-    email = EmailMultiAlternatives(subject,plain_message,email_from,recipient_list)
-    email.attach_alternative(html_message, 'text/html')
-    email.send()
-    #send_mail(subject, message, email_from, recipient_list)
+    # msg = EmailMultiAlternatives(subject,plain_message,email_from,recipient_list)
+    # msg.attach_alternative(html_message, 'text/html')
+    # msg.send()
+    send_mail(subject, message, None, recipient_list)
 
 def verify(request, auth_token):
     try:
@@ -388,10 +396,10 @@ def speakers(request):
 
 def joinTeam(request):
     if request.method == 'POST':
-        # Registration closed
+        '''# Registration closed
         messages.warning(request, 'Registration is now closed')
         return redirect('/join-team')
-        #
+        #'''
         if Team.objects.filter(user=request.user).first().is_leader == False and Team.objects.filter(user = request.user).__len__ == 1:
             auth_token = request.POST.get('auth_token')
             team = Team.objects.filter(auth_token=auth_token).first()
@@ -490,9 +498,9 @@ def joinTeam(request):
                         'can_request': can_request,
                         'no_of_members': no_of_members
                     })
-            # Registration closed
+            '''# Registration closed
             messages.warning(request, 'Registration is now closed')
-            # 
+            # '''
             return render(request, 'join-team.html', { 'data': data })
         else:
             return redirect('/')
@@ -617,6 +625,3 @@ def reset_password_confirm(request, uidb64, token):
     else:
         messages.error(request, 'Password reset link is invalid.')
         return redirect('request_password_reset')
-
-
-

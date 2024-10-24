@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import now
 from django.contrib.auth.decorators import login_required
-from .models import Question, UserResponse, Choice
+from .models import Question, UserResponse, Choice, Leaderboard
 import json
 from datetime import timedelta
 
@@ -46,11 +46,19 @@ def display_question(request, question_id):
         if question.question_type == 'mcq':
             selected_choice = get_object_or_404(Choice, id=request.POST.get('choice'))
             UserResponse.objects.create(user=request.user, question=question, selected_choice=selected_choice)
+            if selected_choice.is_correct:
+                update_leaderboard_points(request.user, 10)
         elif question.question_type == 'crossword':
             user_solution = request.POST.get('crossword_solution')
-            UserResponse.objects.create(user=request.user, question=question, answer_text=user_solution)  # Use answer_text for crossword solutions
+            UserResponse.objects.create(user=request.user, question=question, crossword_solution=user_solution)
+            # Compare solution with correct answer
+            if user_solution == question.correct_answer:
+                update_leaderboard_points(request.user, 10)
         else:
-            UserResponse.objects.create(user=request.user, question=question, answer_text=request.POST.get('answer'))
+            user_answer = request.POST.get('answer')
+            UserResponse.objects.create(user=request.user, question=question, answer_text=user_answer)
+            if user_answer == question.correct_answer:
+                update_leaderboard_points(request.user, 10)
 
         next_question = get_next_question(request.user)
 
@@ -60,18 +68,31 @@ def display_question(request, question_id):
             return redirect('quiz_finished')
 
     if question.question_type == 'crossword':
-        # For crossword questions, assume the crossword clues and grid are managed here
+        crossword = question.crossword
+        grid = json.loads(crossword.grid)  # Serialized crossword grid
+        across_clues = json.loads(crossword.across_clues)
+        down_clues = json.loads(crossword.down_clues)
         context = {
             'question': question,
-            # Include crossword-specific context if needed
+            'grid': grid,
+            'across_clues': across_clues,
+            'down_clues': down_clues,
+            'leaderboard': Leaderboard.objects.all().order_by('-points'),  # Add leaderboard context
         }
         return render(request, 'quiz/crossword.html', context)
 
     context = {
-        'question': question
+        'question': question,
+        'leaderboard': Leaderboard.objects.all().order_by('-points')  # Add leaderboard context
     }
     return render(request, 'quiz/question.html', context)
 
 @login_required
 def quiz_finished(request):
-    return render(request, 'quiz/finished.html')
+    leaderboard = Leaderboard.objects.all().order_by('-points')
+    return render(request, 'quiz/finished.html', {'leaderboard': leaderboard})
+
+def update_leaderboard_points(user, points):
+    leaderboard_entry, created = Leaderboard.objects.get_or_create(user=user)
+    leaderboard_entry.points += points
+    leaderboard_entry.save()
