@@ -1,34 +1,25 @@
-<!-- templates/quiz/crossword.html -->
+<!-- hult-prize/quiz/templates/quiz/crossword.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ quiz.title }} - Crossword</title>
+    <title>Crossword Question</title>
 </head>
 <body>
-    <h1>{{ quiz.title }}</h1>
-    <p>Question: {{ question.question_text }}</p>
-
-    <h3>Across Clues</h3>
-    <ul>
-        {% for clue in across_clues %}
-            <li>{{ clue }}</li>
-        {% endfor %}
-    </ul>
-
-    <h3>Down Clues</h3>
-    <ul>
-        {% for clue in down_clues %}
-            <li>{{ clue }}</li>
-        {% endfor %}
-    </ul>
-
+    <h1>{{ question.text }}</h1>
+    <div id="crossword-grid">
+        <!-- Render crossword grid here -->
+    </div>
     <form method="post">
         {% csrf_token %}
-        <label for="crossword_solution">Enter your crossword solution:</label>
-        <input type="text" id="crossword_solution" name="crossword_solution" placeholder="Solution">
-        <button type="submit">Submit</button>
+        <input type="hidden" name="crossword_solution" id="crossword_solution">
+        <button type="submit">Submit Answer</button>
     </form>
+    <h2>Leaderboard</h2>
+    <ul>
+        {% for entry in leaderboard %}
+            <li>{{ entry.user.username }}: {{ entry.points }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

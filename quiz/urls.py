@@ -1,9 +1,10 @@
+# hult-prize/quiz/urls.py
 from django.urls import path
-from . import views
+from .views import quiz_home, start_quiz, display_question, quiz_finished
 
 urlpatterns = [
-    path('', views.quiz_home, name='quiz_home'),
-    path('start/<int:quiz_id>/', views.start_quiz, name='start_quiz'),
-    path('<int:quiz_id>/question/<int:question_id>/', views.display_question, name='display_question'),
-    path('<int:quiz_id>/finished/', views.quiz_finished, name='quiz_finished'),
+    path('', quiz_home, name='quiz_home'),
+    path('start/', start_quiz, name='start_quiz'),
+    path('question/<int:question_id>/', display_question, name='display_question'),
+    path('finished/', quiz_finished, name='quiz_finished'),
 ]
