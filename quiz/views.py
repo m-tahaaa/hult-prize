@@ -66,16 +66,59 @@ def display_question(request, question_id):
         else:
             return redirect('quiz_finished')
 
+@login_required
+def display_question(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+
+    time_since_start = now()
+    questions_passed = time_since_start // 10
+
+    question_position = list(Question.objects.all().order_by('id')).index(question)
+    if question_position < questions_passed:
+        return redirect('quiz_finished')
+
+    if request.method == 'POST':
+        if question.question_type == 'mcq':
+            selected_choice = get_object_or_404(Choice, id=request.POST.get('choice'))
+            UserResponse.objects.create(user=request.user, question=question, selected_choice=selected_choice)
+            if selected_choice.is_correct:
+                update_leaderboard_points(request.user, 10)
+        elif question.question_type == 'crossword':
+            user_solution = request.POST.get('crossword_solution')
+            UserResponse.objects.create(user=request.user, question=question, crossword_solution=user_solution)
+            # Compare solution with the correct answer
+            if user_solution == question.correct_answer:
+                update_leaderboard_points(request.user, 10)
+        else:
+            user_answer = request.POST.get('answer')
+            UserResponse.objects.create(user=request.user, question=question, answer_text=user_answer)
+            if user_answer == question.correct_answer:
+                update_leaderboard_points(request.user, 10)
+
+        next_question = get_next_question(request.user)
+
+        if next_question:
+            return redirect('display_question', question_id=next_question.id)
+        else:
+            return redirect('quiz_finished')
+
     if question.question_type == 'crossword':
         crossword = question.crossword
         context = {
             'question': question,
-            'grid': json.loads(crossword.grid),
-            'across_clues': json.loads(crossword.across_clues),
-            'down_clues': json.loads(crossword.down_clues),
-            'leaderboard': Leaderboard.objects.all().order_by('-points'),
+            'grid': crossword.grid,  # No need for json.loads()
+            'across_clues': crossword.across_clues,  # No need for json.loads()
+            'down_clues': crossword.down_clues,  # No need for json.loads()
+            'leaderboard': Leaderboard.objects.all().order_by('-points'),  # Add leaderboard context
         }
         return render(request, 'quiz/crossword.html', context)
+
+    context = {
+        'question': question,
+        'leaderboard': Leaderboard.objects.all().order_by('-points')  # Add leaderboard context
+    }
+    return render(request, 'quiz/question.html', context)
+
 
     context = {
         'question': question,

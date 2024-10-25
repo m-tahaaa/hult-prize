@@ -1,32 +1,34 @@
-<!-- hult-prize/quiz/templates/quiz/question.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Question</title>
 </head>
 <body>
-    <h1>{{ question.text }}</h1>
-    <form method="post">
-        {% csrf_token %}
-        {% if question.question_type == 'mcq' %}
+    <h1>{{ question.question_text }}</h1>
+
+    {% if question.question_type == 'mcq' %}
+        <form method="post">
+            {% csrf_token %}
             {% for choice in question.choices.all %}
-                <input type="radio" name="choice" value="{{ choice.id }}"> {{ choice.text }}<br>
+                <label>
+                    <input type="radio" name="choice" value="{{ choice.id }}">
+                    {{ choice.choice_text }}
+                </label><br>
             {% endfor %}
-        {% elif question.question_type == 'text' %}
-            <input type="text" name="answer"><br>
-        {% elif question.question_type == 'crossword' %}
-            <div id="crossword-grid">
-                <!-- Render crossword grid here -->
-            </div>
-            <input type="hidden" name="crossword_solution" id="crossword_solution">
-        {% endif %}
-        <button type="submit">Submit Answer</button>
-    </form>
+            <button type="submit">Submit Answer</button>
+        </form>
+    {% elif question.question_type == 'text' %}
+        <form method="post">
+            {% csrf_token %}
+            <textarea name="answer"></textarea><br>
+            <button type="submit">Submit Answer</button>
+        </form>
+    {% endif %}
+
     <h2>Leaderboard</h2>
     <ul>
         {% for entry in leaderboard %}
-            <li>{{ entry.user.username }}: {{ entry.points }}</li>
+            <li>{{ entry.user.username }}: {{ entry.points }} points</li>
         {% endfor %}
     </ul>
 </body>

@@ -1,18 +1,18 @@
-<!-- hult-prize/quiz/templates/quiz/finished.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Quiz Finished</title>
 </head>
 <body>
-    <h1>Quiz Finished</h1>
-    <h2>Leaderboard</h2>
+    <h1>Quiz Finished!</h1>
+
+    <h2>Final Leaderboard</h2>
     <ul>
         {% for entry in leaderboard %}
-            <li>{{ entry.user.username }}: {{ entry.points }}</li>
+            <li>{{ entry.user.username }}: {{ entry.points }} points</li>
         {% endfor %}
     </ul>
-    <a href="{% url 'quiz_home' %}">Return Home</a>
+
+    <p>Thanks for participating!</p>
 </body>
 </html>
