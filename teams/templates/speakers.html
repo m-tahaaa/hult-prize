@@ -14,6 +14,9 @@
   position: fixed;
   
 }
+.speakers-section {
+  padding-top: 100px; /* Adjust this value as needed */
+}
 .burger {
     position: absolute;
     right: 15px;
@@ -43,7 +46,7 @@
 
     <dotlottie-player src="https://lottie.host/8ae3c606-6f7b-4e53-ab1a-4b7a7b1beed6/eVbvolOi7R.json" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></dotlottie-player>
 </div>
-<section>
+<section class="speakers-section">
   {% for year in uniqueyears %}
   <br>
     <div class = "Year">
@@ -115,7 +118,7 @@
   {% endif %}
   {% endfor %}
   {% endfor %}
-</section>
+</section class="speakers-section">
 
 <!-- <script src="../JavaScript/index.js"></script> -->
 {% endblock body %}
