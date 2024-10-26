@@ -248,11 +248,11 @@ def handleSignUp(request):
         print(f"Form data - Username: {username}, Email: {email}, First Name: {first_name}, Last Name: {last_name}, Phone No: {phone_no}")
 
         try:
-            '''email_domain = email.split('@')[1]
+            email_domain = email.split('@')[1]
             pattern = r"^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.)?nitdgp\.ac\.in$"
             if not re.match(pattern, email):
                 messages.warning(request, 'Please use a valid nitdgp.ac.in email address.')
-                return redirect('/signup')'''
+                return redirect('/signup')
             if User.objects.filter(username=username).first():
                 messages.warning(request, 'Username is already taken')
                 return redirect('/signup')
