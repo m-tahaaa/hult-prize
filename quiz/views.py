@@ -12,8 +12,8 @@ QUESTION_DURATION_MS = 10 * 60 * 1000  # 10 minutes in milliseconds
 def quiz_home(request):
     return render(request, 'quiz/quiz_home.html')
 
-# # Function to get the next unanswered question for the user
-# def get_next_question(user, start_time):
+# Function to get the next unanswered question for the user
+#def get_next_question(user, start_time):
 #     # Calculate how many questions have passed based on elapsed time
 #     questions_passed = (now() - start_time) // timedelta(milliseconds=QUESTION_DURATION_MS)
 #     answered_questions = UserResponse.objects.filter(user=user).values_list('question', flat=True)
