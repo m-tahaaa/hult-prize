@@ -10,7 +10,7 @@ QUESTION_DURATION_MS = 10 * 60 * 1000  # 10 minutes in milliseconds
 
 # Home page for quiz
 def quiz_home(request):
-    return render(request, 'quiz/quiz_home.html')
+    return render(request, 'quiz/quiz_hom22.html')
 
 # Function to get the next unanswered question for the user
 def get_next_question(user, start_time):
