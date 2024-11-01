@@ -3,58 +3,61 @@
 
 {% block css %}
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;800;900&family=Poppins:wght@400;600;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;800;900&family=Poppins:wght@400;600;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Teko:wght@300..700&display=swap');
 
-.question-page {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
+    .question-page {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
 
-.question-container {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 80vw;
-    gap: 20px;
-    border-radius: 10px;
-    padding: 50px 30px;
-}
+    .question-container {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 80vw;
+        gap: 20px;
+        border-radius: 10px;
+        padding: 50px 30px;
+    }
 
-.choice-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    width: 70vw;
-    padding-bottom: 20px;
-}
+    .choice-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        width: 70vw;
+        padding-bottom: 20px;
+    }
 
-.submit-answer:disabled {
-    background-color: grey;
-    cursor: not-allowed;
-}
+    .submit-answer:disabled {
+        background-color: grey;
+        cursor: not-allowed;
+    }
 
-#countdown {
-    font-size: 24px;
-    margin-bottom: 20px;
-    font-weight: 700;
-}
+    #countdown {
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
 
-#countdown.flashing {
-    color: red;
-    animation: flash 1s steps(2) infinite;
-}
+    #countdown.flashing {
+        color: red;
+        animation: flash 1s steps(2) infinite;
+    }
 
-@keyframes flash {
-    50% { opacity: 0; }
-}
+    @keyframes flash {
+        50% {
+            opacity: 0;
+        }
+    }
 
-    .choice-container{
+    .choice-container {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
@@ -95,16 +98,6 @@
         background-color: #fd008b;
     }
 
-    .choice input[type="radio"] {
-        display: none;
-    }
-
-    .choice input[type="radio"]:checked+.choice {
-        background-color: #d1e7ff;
-        color: black;
-        font-weight: bold;
-    }
-
     body {
         /* /* background-image: url('https://wallpaperaccess.com/full/1092611.jpg'); */
         background-image: url('https://images.unsplash.com/photo-1554050857-c84a8abdb5e2?q=80&w=1527&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
@@ -124,10 +117,7 @@
         }
     }
 
-    .question-text {
-        font-family: "Prompt";
-        font-weight: 800;
-    }
+
 
     @media (max-width: 600px) {
         .question-container {
@@ -181,8 +171,16 @@
         align-items: center;
         margin-top: 10px;
         padding: 0 10px;
-  }
-  
+    }
+
+    .question-text {
+        font-family: "Prompt";
+        font-weight: 800;
+    }
+
+    .timer {
+        font-size: 0.1rem;
+    }
 </style>
 {% endblock css %}
 
@@ -190,7 +188,7 @@
 <main class="question-page">
     <div class="question-container">
         <h1 class="question-text">{{ question.question_text }}</h1>
-        <div id="countdown">Time left: {{ time_remaining }} seconds</div> <!-- Countdown timer -->
+        <div id="countdown" class="timer">T-{{ time_remaining }} seconds</div> <!-- Countdown timer -->
 
         {% if question.question_type == 'mcq' %}
         <form id="question-form" method="post">
@@ -210,7 +208,8 @@
         <form id="question-form" method="post">
             {% csrf_token %}
             <input type="hidden" name="time_remaining" id="time_remaining" value="{{ time_remaining }}">
-            <textarea name="answer" style="width: 100%; padding: 10px; border-radius: 10px; font-size: 1.1rem;" oninput="enableSubmitButton()" required></textarea><br>
+            <textarea name="answer" style="width: 100%; padding: 10px; border-radius: 10px; font-size: 1.1rem;"
+                oninput="enableSubmitButton()" required></textarea><br>
             <button class="submit-answer" id="submit-button" type="submit" disabled>Submit Answer</button>
         </form>
         {% endif %}
@@ -227,12 +226,12 @@
             clearInterval(interval);
             // Check if next_question exists in context to prevent errors
             {% if next_question %}
-                window.location.href = "{% url 'quiz:display_question' next_question.id %}"; // Redirect to the next question
+            window.location.href = "{% url 'quiz:display_question' next_question.id %}"; // Redirect to the next question
             {% else %}
-                window.location.href = "{% url 'quiz:quiz_finished' %}"; // Redirect to finish page if no next question
+            window.location.href = "{% url 'quiz:quiz_finished' %}"; // Redirect to finish page if no next question
             {% endif %}
         } else {
-            countdownElement.textContent = `Time left: ${timeRemaining--} seconds`;
+            countdownElement.textContent = `T-${timeRemaining--} seconds`;
         }
     }, 1000);
 
@@ -250,7 +249,7 @@
     }
 
     // Prevent multiple submissions
-    document.getElementById('question-form').addEventListener('submit', function(event) {
+    document.getElementById('question-form').addEventListener('submit', function (event) {
         document.getElementById('submit-button').disabled = true;  // Disable the button to prevent multiple submissions
     });
 
