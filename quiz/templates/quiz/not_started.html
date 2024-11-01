@@ -17,5 +17,26 @@
 <div class="not-started-container">
     <h1>{{ quiz.title }} hasn't started yet!</h1>
     <p>The quiz will start at: {{ quiz.start_time }}</p>
+    <br>
+    <h2>Instructions</h2>
+    <br>
+    <p>
+        <b>1. Start:</b> Refresh the page at 7pm to start.
+        <br> 
+        <b>2. Event Timing:</b>
+        If a participant joins the quiz late, they will start from the current question in progress and will not be able to attempt earlier questions.
+        <br>
+        <b>3. Time Limit:</b>
+        Each question has 90 seconds. After time’s up, the correct answer and response stats are shown.
+        <br>
+
+        <b>4. Scoring:</b>
+        Each question starts at 100 points, reducing over time within the 90-second limit, so faster responses earn higher scores.
+        <br>
+
+        <b>5. Leaderboard:</b>
+        A live leaderboard updates scores after each question, encouraging real-time competition.
+        <br>
+    </p>
 </div>
 {% endblock body %}

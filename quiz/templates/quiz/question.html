@@ -1,4 +1,3 @@
-{% extends 'base.html' %}
 {% load static %}
 
 {% block css %}
@@ -15,7 +14,7 @@
     }
 
     .question-container {
-        margin-top: 50px;
+        margin-top: 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -44,6 +43,7 @@
         font-size: 20px;
         margin-bottom: 10px;
         font-weight: 700;
+        color: gold;
     }
 
     #countdown.flashing {
@@ -181,6 +181,9 @@
     .timer {
         font-size: 0.1rem;
     }
+    .answer-section * {
+        font-family: "Roboto";
+        }
 </style>
 {% endblock css %}
 
@@ -188,7 +191,7 @@
 <main class="question-page">
     <div class="question-container">
         <h1 class="question-text">{{ question.question_text }}</h1>
-        <div id="countdown" class="timer">T-{{ time_remaining }} seconds</div> <!-- Countdown timer -->
+        <div id="countdown" class="timer">{{ time_remaining }} SECONDS</div> <!-- Countdown timer -->
 
         {% if question.question_type == 'mcq' %}
         <form id="question-form" method="post">
@@ -203,7 +206,7 @@
                 {% endfor %}
             </div>
             <div class="button-leaderboard-container">
-                <a href="" class="leaderboard-link">leaderboard <span class="arrow">→</span></a>
+                <a href="{% url 'leaderboard' %}" class="leaderboard-link">leaderboard <span class="arrow">→</span></a>
                 <button type="submit" id="submit-button" class="submit-answer" disabled>Submit Answer</button>
             </div>
         </form>
@@ -211,40 +214,55 @@
         <form id="question-form" method="post">
             {% csrf_token %}
             <input type="hidden" name="time_remaining" id="time_remaining" value="{{ time_remaining }}">
-            <textarea name="answer" style="width: 100%; padding: 10px; border-radius: 10px; font-size: 1.1rem;"
-                oninput="enableSubmitButton()" required></textarea><br>
-            <button class="submit-answer" id="submit-button" type="submit" disabled>Submit Answer</button>
+            <textarea name="answer" style="width: 100%; padding: 10px; border-radius: 10px; font-size: 1.1rem;" oninput="enableSubmitButton()" required></textarea><br>
+            <button class="submit-answer" id="submit-button" type="submit" enabled>Submit Answer</button>
         </form>
         {% endif %}
+
+        <!-- Correct answer and explanation sections, initially hidden -->
+        <div id="correct-answer-section" class="answer-section" style="display: none;">
+            <h3>Current Points:<span style="color: gold">{{points}}</span></h3>
+            <h3>Correct Answer:</h3>
+            <p>{{ correct_answer }}</p>
+            <h3>Explanation:</h3>
+            <p>{{ explanation }}</p>
+        </div>
     </div>
 </main>
+
 
 <script>
     // Countdown Timer
     let timeRemaining = {{ time_remaining }};
     const countdownElement = document.getElementById('countdown');
+    const correctAnswerSection = document.getElementById('correct-answer-section');
+    const submitButton = document.getElementById('submit-button');
 
     const interval = setInterval(() => {
         if (timeRemaining <= 0) {
             clearInterval(interval);
-            // Check if next_question exists in context to prevent errors
-            {% if next_question %}
-            window.location.href = "{% url 'quiz:display_question' next_question.id %}"; // Redirect to the next question
-            {% else %}
-            window.location.href = "{% url 'quiz:quiz_finished' %}"; // Redirect to finish page if no next question
-            {% endif %}
+            // Show the correct answer and explanation
+            correctAnswerSection.style.display = 'block';
+            submitButton.disabled = true; // Disable the submit button
+
+            // Delay redirection to the next question for 5 seconds
+            setTimeout(() => {
+                {% if next_question %}
+                    window.location.href = "{% url 'quiz:display_question' next_question.id %}";
+                {% else %}
+                    window.location.href = "{% url 'quiz:quiz_finished' %}";
+                {% endif %}
+            }, 5000);
         } else {
-            countdownElement.textContent = `T-${timeRemaining--} seconds`;
+            countdownElement.textContent = `${timeRemaining--} SECONDS`;
         }
     }, 1000);
 
-    // Enable submit button when an option is selected or text is entered
     function enableSubmitButton() {
         const submitButton = document.getElementById('submit-button');
         const radioButtons = document.querySelectorAll('input[name="choice"]');
         const textarea = document.querySelector('textarea[name="answer"]');
 
-        // Check if any radio button is checked or if the textarea is filled
         const isRadioSelected = Array.from(radioButtons).some(radio => radio.checked);
         const isTextFilled = textarea && textarea.value.trim() !== '';
 
@@ -261,5 +279,7 @@
     window.onpopstate = function () {
         window.history.go(1);
     };
+    
 </script>
+
 {% endblock body %}
