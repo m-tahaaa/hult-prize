@@ -55,8 +55,8 @@ class UserResponse(models.Model):
         return f'{self.user} - {self.question}'
 
 class Leaderboard(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)  # One entry per user
-    points = models.IntegerField(default=0)  # Default points set to 0
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username}: {self.points} points'

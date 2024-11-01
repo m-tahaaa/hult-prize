@@ -1,32 +1,60 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block css %}
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Teko:wght@300..700&display=swap');
-    
-    .question-page {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;800;900&family=Poppins:wght@400;600;800&display=swap');
 
-    .question-container {
-        margin-top: 50px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        width: 80vw;
-        gap: 20px;
-        /* background-color: aliceblue; */
-        border-radius: 10px;
-        padding: 50px 30px;
-    }
+.question-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
 
-    .choice-container {
+.question-container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 80vw;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 50px 30px;
+}
+
+.choice-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 70vw;
+    padding-bottom: 20px;
+}
+
+.submit-answer:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+#countdown {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+#countdown.flashing {
+    color: red;
+    animation: flash 1s steps(2) infinite;
+}
+
+@keyframes flash {
+    50% { opacity: 0; }
+}
+
+
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
@@ -153,46 +181,83 @@
         align-items: center;
         margin-top: 10px;
         padding: 0 10px;
-    }
+  }
+  
 </style>
 {% endblock css %}
+
 {% block body %}
 <main class="question-page">
     <div class="question-container">
-        <!-- TODO: add question number  -->
         <h1 class="question-text">{{ question.question_text }}</h1>
+        <div id="countdown">Time left: {{ time_remaining }} seconds</div> <!-- Countdown timer -->
 
         {% if question.question_type == 'mcq' %}
-        <form method="post">
+        <form id="question-form" method="post">
             {% csrf_token %}
+            <input type="hidden" name="time_remaining" id="time_remaining" value="{{ time_remaining }}">
             <div class="choice-container">
                 {% for choice in question.choices.all %}
                 <label class="choice">
-                    <input type="radio" name="choice" value="{{ choice.id }}">
+                    <input type="radio" name="choice" value="{{ choice.id }}" onchange="enableSubmitButton()">
                     <span>{{ choice.choice_text }}</span>
                 </label>
                 {% endfor %}
             </div>
-            <div class="button-leaderboard-container">
-                <a href="" class="leaderboard-link">leaderboard <span class="arrow">→</span></a>
-                <button type="submit" class="submit-answer">Submit Answer</button>
-            </div>
+            <button type="submit" id="submit-button" class="submit-answer" disabled>Submit Answer</button>
         </form>
         {% elif question.question_type == 'text' %}
-        <form method="post">
+        <form id="question-form" method="post">
             {% csrf_token %}
-            <textarea name="answer"></textarea><br>
-            <button class="submit-answer" type="submit">Submit Answer</button>
+            <input type="hidden" name="time_remaining" id="time_remaining" value="{{ time_remaining }}">
+            <textarea name="answer" style="width: 100%; padding: 10px; border-radius: 10px; font-size: 1.1rem;" oninput="enableSubmitButton()" required></textarea><br>
+            <button class="submit-answer" id="submit-button" type="submit" disabled>Submit Answer</button>
         </form>
         {% endif %}
-
-
-        <!-- <h2>Leaderboard</h2>
-        <ul>
-            {% for entry in leaderboard %}
-            <li>{{ entry.user.username }}: {{ entry.points }} points</li>
-            {% endfor %}
-        </ul> -->
     </div>
 </main>
+
+<script>
+    // Countdown Timer
+    let timeRemaining = {{ time_remaining }};
+    const countdownElement = document.getElementById('countdown');
+
+    const interval = setInterval(() => {
+        if (timeRemaining <= 0) {
+            clearInterval(interval);
+            // Check if next_question exists in context to prevent errors
+            {% if next_question %}
+                window.location.href = "{% url 'quiz:display_question' next_question.id %}"; // Redirect to the next question
+            {% else %}
+                window.location.href = "{% url 'quiz:quiz_finished' %}"; // Redirect to finish page if no next question
+            {% endif %}
+        } else {
+            countdownElement.textContent = `Time left: ${timeRemaining--} seconds`;
+        }
+    }, 1000);
+
+    // Enable submit button when an option is selected or text is entered
+    function enableSubmitButton() {
+        const submitButton = document.getElementById('submit-button');
+        const radioButtons = document.querySelectorAll('input[name="choice"]');
+        const textarea = document.querySelector('textarea[name="answer"]');
+
+        // Check if any radio button is checked or if the textarea is filled
+        const isRadioSelected = Array.from(radioButtons).some(radio => radio.checked);
+        const isTextFilled = textarea && textarea.value.trim() !== '';
+
+        submitButton.disabled = !(isRadioSelected || isTextFilled);
+    }
+
+    // Prevent multiple submissions
+    document.getElementById('question-form').addEventListener('submit', function(event) {
+        document.getElementById('submit-button').disabled = true;  // Disable the button to prevent multiple submissions
+    });
+
+    // Prevent the browser back button
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+        window.history.go(1);
+    };
+</script>
 {% endblock body %}
