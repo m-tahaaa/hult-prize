@@ -202,7 +202,10 @@
                 </label>
                 {% endfor %}
             </div>
-            <button type="submit" id="submit-button" class="submit-answer" disabled>Submit Answer</button>
+            <div class="button-leaderboard-container">
+                <a href="" class="leaderboard-link">leaderboard <span class="arrow">→</span></a>
+                <button type="submit" id="submit-button" class="submit-answer" disabled>Submit Answer</button>
+            </div>
         </form>
         {% elif question.question_type == 'text' %}
         <form id="question-form" method="post">
