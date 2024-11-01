@@ -17,6 +17,5 @@
 <div class="not-started-container">
     <h1>{{ quiz.title }} hasn't started yet!</h1>
     <p>The quiz will start at: {{ quiz.start_time }}</p>
-    <a href="{% url 'start_quiz' %}">Refresh</a>  <!-- Adjusted to remove quiz.id -->
 </div>
 {% endblock body %}

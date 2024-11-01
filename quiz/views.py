@@ -7,13 +7,13 @@ from datetime import datetime, timedelta
 import pytz
 
 IST = pytz.timezone('Asia/Kolkata')
-QUIZ_START_TIME = IST.localize(datetime(2024, 11, 1, 11, 49, 0))  # Set Time for the Quiz 
+QUIZ_START_TIME = IST.localize(datetime(2024, 11, 1, 14, 31, 0))  # Set Time for the Quiz 
 QUESTION_DURATION = 10  # Set question duration in seconds
 MAX_POINTS = 100  # Set the Points
 
 def quiz_home(request):
     current_time = timezone.now()
-    quiz_title = "Your Quiz Title"  # Replace with actual quiz title
+    quiz_title = "Quiz"
     quiz_start_time = QUIZ_START_TIME.strftime("%Y-%m-%d %H:%M:%S")
 
     if current_time < QUIZ_START_TIME:
@@ -73,8 +73,6 @@ def display_question(request, question_id):
                 UserResponse.objects.create(user=request.user, question=question, answer_text=user_answer)
                 if user_answer == question.correct_answer:
                     update_leaderboard_points(request.user, points)
-
-            messages.success(request, "Your answer has been submitted. Please wait for the next question.")
 
     next_question = questions[question_index + 1] if question_index + 1 < len(questions) else None
 
