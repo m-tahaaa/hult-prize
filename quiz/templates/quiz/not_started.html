@@ -1,4 +1,3 @@
-<!-- templates/quiz/not_started.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +8,6 @@
 <body>
     <h1>{{ quiz.title }} hasn't started yet!</h1>
     <p>The quiz will start at: {{ quiz.start_time }}</p>
-    <a href="{% url 'start_quiz' quiz.id %}">Refresh</a>
+    <a href="{% url 'start_quiz' %}">Refresh</a>  <!-- Adjusted to remove quiz.id -->
 </body>
 </html>
