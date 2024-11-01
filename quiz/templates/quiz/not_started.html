@@ -1,13 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Not Started</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Quiz Not Started{% endblock title %}
+{% block css %}
+<style>
+
+.not-started-container {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+</style>
+{% endblock css %}
+{% block body %}
+<div class="not-started-container">
     <h1>{{ quiz.title }} hasn't started yet!</h1>
     <p>The quiz will start at: {{ quiz.start_time }}</p>
     <a href="{% url 'start_quiz' %}">Refresh</a>  <!-- Adjusted to remove quiz.id -->
-</body>
-</html>
+</div>
+{% endblock body %}
