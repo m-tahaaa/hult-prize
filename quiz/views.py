@@ -7,8 +7,8 @@ from datetime import datetime, timedelta
 import pytz
 
 IST = pytz.timezone('Asia/Kolkata')
-QUIZ_START_TIME = IST.localize(datetime(2024, 11, 2, 18, 3, 0)) 
-QUIZ_END_TIME = IST.localize(datetime(2024, 11, 2, 18, 10, 0)) # Set Time for the Quiz 
+QUIZ_START_TIME = IST.localize(datetime(2024, 11, 2, 18, 20, 0)) 
+QUIZ_END_TIME = IST.localize(datetime(2024, 11, 2, 18, 50, 0)) # Set Time for the Quiz 
 QUESTION_DURATION = 20  # Set question duration in seconds
 MAX_POINTS = 100  # Set the Points
 
