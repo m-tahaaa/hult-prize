@@ -4,6 +4,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;800;900&family=Poppins:wght@400;600;800&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Teko:wght@300..700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
     .question-page {
         height: 100vh;
@@ -37,13 +38,6 @@
     .submit-answer:disabled {
         background-color: grey;
         cursor: not-allowed;
-    }
-
-    #countdown {
-        font-size: 20px;
-        margin-bottom: 10px;
-        font-weight: 700;
-        color: gold;
     }
 
     #countdown.flashing {
@@ -150,6 +144,7 @@
         color: white;
         text-decoration: none;
         transition: text-decoration 0.3s ease;
+        font-family: "Prompt";
     }
 
     .leaderboard-link:hover {
@@ -176,14 +171,25 @@
     .question-text {
         font-family: "Prompt";
         font-weight: 800;
+        margin: 5px 20px;
     }
 
+
     .timer {
-        font-size: 0.1rem;
+        font-size: 1.10rem;
+        padding: 5px 20px;
+        border-radius: 5px;
+        backdrop-filter: blur(19px) saturate(200%);
+        -webkit-backdrop-filter: blur(19px) saturate(200%);
+        background-color: rgba(0, 0, 0, 0.62);
+        border-radius: 12px;
+        border: 1px solid rgba(209, 213, 219, 0.3);
+        font-family: "Orbitron";
     }
+
     .answer-section * {
         font-family: "Roboto";
-        }
+    }
 </style>
 {% endblock css %}
 
@@ -191,7 +197,7 @@
 <main class="question-page">
     <div class="question-container">
         <h1 class="question-text">{{ question.question_text }}</h1>
-        <div id="countdown" class="timer">{{ time_remaining }} SECONDS</div> <!-- Countdown timer -->
+        <div id="countdown" class="timer">⏲️ {{ time_remaining }}sec</div> <!-- Countdown timer -->
 
         {% if question.question_type == 'mcq' %}
         <form id="question-form" method="post">
@@ -214,7 +220,8 @@
         <form id="question-form" method="post">
             {% csrf_token %}
             <input type="hidden" name="time_remaining" id="time_remaining" value="{{ time_remaining }}">
-            <textarea name="answer" style="width: 100%; padding: 10px; border-radius: 10px; font-size: 1.1rem;" oninput="enableSubmitButton()" required></textarea><br>
+            <textarea name="answer" style="width: 100%; padding: 10px; border-radius: 10px; font-size: 1.1rem;"
+                oninput="enableSubmitButton()" required></textarea><br>
             <button class="submit-answer" id="submit-button" type="submit" enabled>Submit Answer</button>
         </form>
         {% endif %}
@@ -248,13 +255,13 @@
             // Delay redirection to the next question for 5 seconds
             setTimeout(() => {
                 {% if next_question %}
-                    window.location.href = "{% url 'quiz:display_question' next_question.id %}";
+                window.location.href = "{% url 'quiz:display_question' next_question.id %}";
                 {% else %}
-                    window.location.href = "{% url 'quiz:quiz_finished' %}";
+                window.location.href = "{% url 'quiz:quiz_finished' %}";
                 {% endif %}
             }, 5000);
         } else {
-            countdownElement.textContent = `${timeRemaining--} SECONDS`;
+            countdownElement.textContent = `⏲️ ${timeRemaining--}s`;
         }
     }, 1000);
 
@@ -279,7 +286,7 @@
     window.onpopstate = function () {
         window.history.go(1);
     };
-    
+
 </script>
 
 {% endblock body %}

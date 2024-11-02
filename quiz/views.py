@@ -91,7 +91,7 @@ def display_question(request, question_id):
     return render(request, 'quiz/question.html', context)
 
 
-@login_required
+# @login_required
 def leaderboard(request):
     leaderboard = Leaderboard.objects.all().order_by('-points')
     return render(request, 'quiz/leaderboard.html', {'leaderboard': leaderboard})
