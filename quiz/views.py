@@ -7,9 +7,9 @@ from datetime import datetime, timedelta
 import pytz
 
 IST = pytz.timezone('Asia/Kolkata')
-QUIZ_START_TIME = IST.localize(datetime(2024, 11, 2, 18, 20, 0)) 
-QUIZ_END_TIME = IST.localize(datetime(2024, 11, 2, 18, 50, 0)) # Set Time for the Quiz 
-QUESTION_DURATION = 20  # Set question duration in seconds
+QUIZ_START_TIME = IST.localize(datetime(2024, 11, 2, 19, 5, 0)) 
+QUIZ_END_TIME = IST.localize(datetime(2024, 11, 2, 19, 36, 0)) # Set Time for the Quiz 
+QUESTION_DURATION = 90  # Set question duration in seconds
 MAX_POINTS = 100  # Set the Points
 
 def quiz_home(request):
@@ -43,7 +43,9 @@ def start_quiz(request):
         return redirect('quiz_finished')
     if first_question:
         return redirect('quiz:display_question', question_id=first_question.id)
-
+    else:
+        return redirect('quiz_finished')
+    
 @login_required
 def display_question(request, question_id):
     question = get_object_or_404(Question, id=question_id)
