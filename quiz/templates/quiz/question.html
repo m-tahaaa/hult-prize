@@ -13,6 +13,7 @@
         justify-content: center;
         align-items: center;
         color: white;
+        flex-direction: column;
     }
 
     .question-container {
@@ -165,8 +166,20 @@
         font-family: "Orbitron";
     }
 
-    .answer-section * {
-        font-family: "Roboto";
+    .answer-section {
+        max-width: 800px;
+        padding: 40px;
+        border-radius: 10px;
+
+        backdrop-filter: blur(0px) saturate(200%);
+        -webkit-backdrop-filter: blur(0px) saturate(100%);
+        background-color: rgba(0, 0, 0, 0.623);
+        border-radius: 12px;
+        border: 1px solid rgba(209, 213, 219, 0.5);
+        color: white;
+
+        font-family: "Prompt";
+        margin-bottom: 50px;
     }
 
 </style>
@@ -204,13 +217,14 @@
         </form>
         {% endif %}
 
-        <div id="correct-answer-section" class="answer-section" style="display: none;">
-            <h3>Current Points:<span style="color: gold">{{points}}</span></h3>
-            <h3>Correct Answer:</h3>
-            <p>{{ correct_answer }}</p>
-            <h3>Explanation:</h3>
-            <p>{{ explanation }}</p>
-        </div>
+        <!-- Correct answer and explanation sections, initially hidden -->
+    </div>
+    <div id="correct-answer-section" class="answer-section" style="display: none;">
+        <h3>Current Points:<span style="color: gold"> {{points}}</span></h3>
+        <h3>Correct Answer:</h3>
+        <p>{{ correct_answer }}</p>
+        <h3>Explanation:</h3>
+        <p>{{ explanation }}</p>
     </div>
 </main>
 
