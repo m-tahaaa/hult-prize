@@ -8,16 +8,16 @@ from datetime import datetime, timedelta
 import pytz
 
 IST = pytz.timezone('Asia/Kolkata')
-QUIZ_START_TIME = IST.localize(datetime(2024, 11, 3, 17, 8, 0)) # Start time for the quiz
-QUIZ_END_TIME = IST.localize(datetime(2024, 11, 4, 19, 36, 0))  # End time for the quiz
+QUIZ_START_TIME = IST.localize(datetime(2024, 11, 3, 19, 5, 0)) # Start time for the quiz
+QUIZ_END_TIME = IST.localize(datetime(2024, 11, 3, 20, 30, 0))  # End time for the quiz
 MAX_POINTS = 100  # Maximum points for each question
 
-DEFAULT_DURATION = 15  # Default for MCQ
-SHORT_TEXT_DURATION = 25  # Duration for fill-in-the-blank questions
-LONG_TEXT_DURATION = 35  # Duration for long text questions (passages)
+DEFAULT_DURATION = 30  # Default for MCQ
+SHORT_TEXT_DURATION = 50  # Duration for fill-in-the-blank questions
+LONG_TEXT_DURATION = 150  # Duration for long text questions (passages)
 
 def get_question_duration(question):
-    if question.question_type == 'mcq' and len(question.question_text) > 200:
+    if question.question_type == 'mcq' and len(question.question_text) > 150:
         return LONG_TEXT_DURATION
     elif question.question_type == 'text':
         return SHORT_TEXT_DURATION
