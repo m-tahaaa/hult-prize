@@ -60,3 +60,40 @@ class Leaderboard(models.Model):
 
     def __str__(self):
         return f'{self.user.username}: {self.points} points'
+
+
+class QuizSettings(models.Model):
+    quiz_title = models.CharField(max_length=255, default="Quiz")
+    start_time = models.DateTimeField(help_text="When the quiz starts (all users see Q1)")
+    end_time = models.DateTimeField(help_text="When the quiz ends completely")
+    default_duration = models.IntegerField(default=30, help_text="Default seconds per MCQ question")
+    short_text_duration = models.IntegerField(default=50, help_text="Seconds for fill-in-the-blank questions")
+    long_text_duration = models.IntegerField(default=150, help_text="Seconds for long passage questions")
+    long_text_threshold = models.IntegerField(default=150, help_text="Character count to consider a question 'long'")
+    is_active = models.BooleanField(default=False, help_text="Enable/disable the quiz")
+
+    class Meta:
+        verbose_name = "Quiz Settings"
+        verbose_name_plural = "Quiz Settings"
+
+    def __str__(self):
+        return f"{self.quiz_title} - {'Active' if self.is_active else 'Inactive'}"
+
+    def save(self, *args, **kwargs):
+        # Ensure only one QuizSettings instance exists
+        if not self.pk and QuizSettings.objects.exists():
+            raise ValueError("Only one QuizSettings instance is allowed")
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get_settings(cls):
+        """Get the quiz settings, create default if none exists"""
+        settings = cls.objects.first()
+        if not settings:
+            from django.utils import timezone
+            settings = cls.objects.create(
+                start_time=timezone.now(),
+                end_time=timezone.now(),
+                is_active=False
+            )
+        return settings
